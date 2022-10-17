@@ -5,6 +5,11 @@ Hat.
 
 *This is in **no way** affiliated to Red Hat (nor support by), I am just publishing those as I am using them*.
 
+This repository provides the following overlays:
+- `all`: contains all the above
+- `openshift`: openshift tooling, like `oc`, `openshift-install`,
+  `operator-sdk`, …
+
 ## Quickstart
 To get up and running quickly, add the following lines to your =/etc/nixos/configuration.nix=:
 
@@ -40,7 +45,7 @@ To get up and running quickly, add the following lines to your =/etc/nixos/confi
       pkgs = import nixpkgs {
         system = "x86_64-linux";
         overlays = [
-          chapeau-rouge.overlay
+          chapeau-rouge.overlay.all
         ];
         config = { allowUnfree = true; };
     };

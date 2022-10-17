@@ -17,10 +17,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1664687381,
-        "narHash": "sha256-9czSuDzS+OGGwq2kC4KXBLXWfYaup+oLB+AA1Md25U4=",
-        "path": "/nix/store/1s5afy2nq2baqilqysf8d7x91rnfv57h-source",
-        "rev": "59d2991d4256cdca1c0cda45d876c80a0fe45c31",
+        "lastModified": 1665643254,
+        "narHash": "sha256-IBVWNJxGCsshwh62eRfR6+ry3bSXmulB3VQRzLQo3hk=",
+        "path": "/nix/store/9z3mf509n245ydbsx13ygcp7w4yc3s5g-source",
+        "rev": "ba187fbdc5e35322c7dff556ef2c47bddfd6e8d7",
         "type": "path"
       },
       "original": {

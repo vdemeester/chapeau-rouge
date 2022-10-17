@@ -1,10 +1,5 @@
 {
   openshift = final: prev: {
-    # oc
-    # openshift-install
-    # operator-sdk
-    # opm
-    # odo
     # TODO: opc
     inherit (prev.callPackage ./packages/oc.nix { })
       oc_4_9
@@ -56,7 +51,13 @@
       opm
       ;
 
+    # operator-tool = prev.callPackage ./operator-tooling { };
   };
+  all = self: super:
+    # Overlay which aggregates overlays for tools and products in this repository
+    with super.lib;
 
-  # operator-tool = prev.callPackage ./operator-tooling { };
+    (foldl' (flip extends) (_: super)
+      (map import (import ./overlays.nix)))
+      self;
 }

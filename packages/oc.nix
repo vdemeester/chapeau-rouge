@@ -62,7 +62,7 @@ rec {
     aarch64-darwin-sha256 = "10cfl22c9jilh5gxgf7cxy76z52pfhh6411g4vsg1phhdn0vj7rw";
     aarch64-linux-sha256 = "0vxb568g6wsfr1vvfgl1c1r885q2bnmdxkmb6rwp0lm2dlgbsxmx";
     x86_64-darwin-sha256 = "1597xp3ih62qhxdy4h5kigij8iwkz07qi0smsb6790c6gml7q0wc";
-    x86_64-linux-sha256 = "11crwdmwf4v8h65kyfagzqh7aphvqix4xmds968r79211y3zm3w8";
+    x86_64-linux-sha256 = "07a5d74gwpcim8r162ha85y0yvkr627760xnynbs59nxjyyq5688";
   };
   oc_4_10 = makeOverridable ocGen {
     version = "4.10.37";

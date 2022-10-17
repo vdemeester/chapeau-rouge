@@ -24,7 +24,7 @@
               openshift-install_4_9
               openshift-install_4_10
               openshift-install_4_11
-              oc
+              openshift-install
               ;
             # Operator SDK
             inherit (pkgs.callPackage ./packages/operator-sdk.nix { })

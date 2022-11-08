@@ -1,4 +1,4 @@
-{ stdenv, lib, buildGo117Module, git, fetchFromGitHub }:
+{ lib, buildGo117Module, fetchFromGitHub }:
 
 with lib;
 rec {
@@ -46,7 +46,7 @@ rec {
         description = "Operator Registry runs in a Kubernetes or OpenShift cluster to provide operator catalog data to Operator Lifecycle Manager.
 
 ";
-        homepage = https://github.com/operator-framework/operator-registry;
+        homepage = "https://github.com/operator-framework/operator-registry";
         license = lib.licenses.asl20;
       };
     };

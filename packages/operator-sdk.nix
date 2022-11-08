@@ -1,4 +1,4 @@
-{ stdenv, lib, buildGo117Module, git, fetchFromGitHub }:
+{ lib, buildGo117Module, fetchFromGitHub }:
 
 with lib;
 rec {
@@ -45,7 +45,7 @@ rec {
 
       meta = {
         description = "SDK for building Kubernetes applications. Provides high level APIs, useful abstractions, and project scaffolding";
-        homepage = https://github.com/operator-framework/operator-sdk;
+        homepage = "https://github.com/operator-framework/operator-sdk";
         license = lib.licenses.asl20;
       };
     };

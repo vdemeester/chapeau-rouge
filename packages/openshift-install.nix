@@ -54,7 +54,7 @@ rec {
 
       meta = {
         description = "Install an OpenShift cluster";
-        homepage = https://github.com/openshift/installer;
+        homepage = "https://github.com/openshift/installer";
         license = lib.licenses.asl20;
       };
     };

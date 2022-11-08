@@ -1,9 +1,10 @@
 { pkgs ? import <nixpkgs> { } }:
-rec {
+{
   inherit (pkgs.callPackage ./oc.nix { })
     oc_4_9
     oc_4_10
     oc_4_11
+    oc_4_12
     oc
     ;
   inherit (pkgs.callPackage ./openshift-install.nix { })
@@ -15,6 +16,7 @@ rec {
   # Operator SDK
   inherit (pkgs.callPackage ./operator-sdk.nix { })
     operator-sdk_1
+    operator-sdk_1_25
     operator-sdk_1_24
     operator-sdk_1_23
     operator-sdk_1_22

@@ -27,6 +27,7 @@
             # Operator SDK
             inherit (pkgs.callPackage ./packages/operator-sdk.nix { })
               operator-sdk_1
+              operator-sdk_1_25
               operator-sdk_1_24
               operator-sdk_1_23
               operator-sdk_1_22
@@ -90,17 +91,10 @@
           # Operator SDK
           inherit (prev.callPackage ./packages/operator-sdk.nix { })
             operator-sdk_1
+            operator-sdk_1_25
+            operator-sdk_1_24
             operator-sdk_1_23
             operator-sdk_1_22
-            operator-sdk_1_21
-            operator-sdk_1_20
-            operator-sdk_1_17
-            operator-sdk_1_16
-            operator-sdk_1_15
-            operator-sdk_1_14
-            operator-sdk_1_13
-            operator-sdk_0_18
-            operator-sdk_0_19
             operator-sdk
             ;
           # OPM

@@ -1,4 +1,4 @@
-{ lib, buildGo117Module, fetchFromGitHub }:
+{ stdenv, lib, buildGo118Module, fetchFromGitHub, sqlite }:
 
 with lib;
 rec {
@@ -9,13 +9,13 @@ rec {
     , vendorSha256
     }:
 
-    buildGo117Module rec {
+    buildGo118Module rec {
       inherit vendorSha256;
       pname = "operator-sdk";
       name = "${pname}-${version}";
       rev = "v${version}";
 
-      builtInputs = [ "git" ];
+      builtInputs = [ "git" sqlite ];
 
       subPackages = [ "cmd/operator-sdk" ];
       ldflags =
@@ -23,9 +23,12 @@ rec {
           t = "github.com/operator-framework/operator-sdk/internal/version";
         in
         [
+          "-s"
+          "-w"
           "-X ${t}.GitVersion=${version}"
           "-X ${t}.KubernetesVersion=${k8sVersion}"
         ];
+      CGO_CFLAGS = lib.optionals stdenv.cc.isGNU [ "-Wno-return-local-addr" ];
 
       src = fetchFromGitHub {
         inherit rev;
@@ -68,6 +71,12 @@ rec {
     sha256 = "sha256-Gc3TnGxKHmxwu+fhxxU/QmSMufRiiZhrFeoeZCRya7w=";
     vendorSha256 = "sha256-eczTVlArpO+uLC6IsTkj4LBIi+fXq7CMBf1zJShDN58=";
   };
-  operator-sdk_1 = operator-sdk_1_24;
+  operator-sdk_1_25 = makeOverridable operatorSdkGen {
+    version = "1.25.0";
+    k8sVersion = "1.25";
+    sha256 = "sha256-Ej+Ai5bxqT3x/snFD0WaakcXlHCWJQh3vanyUJyJ/ks=";
+    vendorSha256 = "sha256-7I/Hcrp50Nyp2yjALoEX/+sr3B/XJ8JKmkAB1SgAuGg=";
+  };
+  operator-sdk_1 = operator-sdk_1_25;
   operator-sdk = operator-sdk_1;
 }

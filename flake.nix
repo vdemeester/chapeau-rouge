@@ -2,8 +2,9 @@
   description = "Chapeau rouge, an overlay of Red Hat tools for Nix";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs.pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, pre-commit-hooks }:
     {
       # Inidividual overlays.
       overlays = import ./overlays.nix;
@@ -42,6 +43,14 @@
             default = oc;
           };
 
+          checks = {
+            pre-commit-check = pre-commit-hooks.lib.${system}.run {
+              src = ./.;
+              hooks = {
+                nixpkgs-fmt.enable = true;
+              };
+            };
+          };
           shell = ./shell.nix;
         }
       );

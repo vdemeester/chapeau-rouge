@@ -1,13 +1,13 @@
 {
-  openshift = final: prev: {
+  openshift = self: super: {
     # TODO: opc
-    inherit (prev.callPackage ./packages/oc.nix { })
+    inherit (super.callPackage ./packages/oc.nix { })
       oc_4_9
       oc_4_10
       oc_4_11
       oc
       ;
-    inherit (prev.callPackage ./packages/openshift-install.nix { })
+    inherit (super.callPackage ./packages/openshift-install.nix { })
       openshift-install_4_3
       openshift-install_4_4
       openshift-install_4_5
@@ -20,7 +20,7 @@
       openshift-install
       ;
 
-    inherit (prev.callPackage ./packages/odo.nix { })
+    inherit (super.callPackage ./packages/odo.nix { })
       odo_1_2
       odo_2_0
       odo_2_1
@@ -30,7 +30,7 @@
       ;
 
     # Operator SDK
-    inherit (prev.callPackage ./packages/operator-sdk.nix { })
+    inherit (super.callPackage ./packages/operator-sdk.nix { })
       operator-sdk_1
       operator-sdk_1_23
       operator-sdk_1_22
@@ -46,12 +46,12 @@
       operator-sdk
       ;
     # OPM
-    inherit (prev.callPackage ./packages/opm.nix { })
+    inherit (super.callPackage ./packages/opm.nix { })
       opm_1_26
       opm
       ;
 
-    # operator-tool = prev.callPackage ./operator-tooling { };
+    # operator-tool = super.callPackage ./operator-tooling { };
   };
   all = self: super:
     # Overlay which aggregates overlays for tools and products in this repository

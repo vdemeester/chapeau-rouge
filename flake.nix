@@ -50,12 +50,17 @@
               };
             };
           };
-          # shell = ./shell.nix;
+          devShells.default = pkgs.mkShell {
+            inherit (self.checks.${system}.pre-commit-check) shellHook;
+            buildInputs = with pkgs; [
+              pre-commit
+            ];
+          };
         }
       ) // {
       # Inidividual overlays.
       overlays = {
-        openshift = final: prev: {
+        openshift = _: prev: {
           inherit (prev.callPackage ./packages/oc.nix { })
             oc_4_9
             oc_4_10
@@ -104,7 +109,7 @@
             opm
             ;
         };
-        default = final: prev: { };
+        default = _: _: { };
       };
     };
 }

@@ -1,0 +1,29 @@
+name: update-openshift-packages
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule:
+    - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
+
+jobs:
+  refresh-packages:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'vdemeester'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Nix
+        uses: cachix/install-nix-action@v16
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: Update inputs
+        run: |
+          ./update
+      - name: Push commit with updated inputs
+        run: |
+          git pull --rebase --autostash
+          git push

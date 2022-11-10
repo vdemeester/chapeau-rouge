@@ -4,107 +4,50 @@
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 
-  outputs = { self, nixpkgs, flake-utils, pre-commit-hooks }:
-    flake-utils.lib.eachSystem [ "aarch64-linux" "aarch64-darwin" "x86_64-darwin" "x86_64-linux" ]
-      (system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          packages = rec {
-            inherit (pkgs.callPackage ./packages/oc.nix { })
-              oc_4_9
-              oc_4_10
-              oc_4_11
-              oc
-              ;
-            inherit (pkgs.callPackage ./packages/openshift-install.nix { })
-              openshift-install_4_9
-              openshift-install_4_10
-              openshift-install_4_11
-              openshift-install
-              ;
-            # Operator SDK
-            inherit (pkgs.callPackage ./packages/operator-sdk.nix { })
-              operator-sdk_1
-              operator-sdk_1_25
-              operator-sdk_1_24
-              operator-sdk_1_23
-              operator-sdk_1_22
-              operator-sdk
-              ;
-            # OPM
-            inherit (pkgs.callPackage ./packages/opm.nix { })
-              opm_1_26
-              opm
-              ;
-            default = oc;
-          };
+  outputs = { self, nixpkgs, flake-utils, pre-commit-hooks }: {
+    # Inidividual overlays.
+    # self: super: must be named final: prev: for `nix flake check` to be happy
+    overlays = {
+      default = final: prev: import ./overlays final prev;
+      openshift = final: prev: import ./overlays/openshift.nix final prev;
+      # package = final: prev: import ./overlays/package.nix final prev;
+    };
 
-          checks = {
-            pre-commit-check = pre-commit-hooks.lib.${system}.run {
-              src = ./.;
-              hooks = {
-                nixpkgs-fmt.enable = true;
-                nix-linter.enable = true;
-                statix.enable = true;
-              };
+  } // flake-utils.lib.eachSystem [ "aarch64-linux" "aarch64-darwin" "x86_64-darwin" "x86_64-linux" ]
+    (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowAliases = false;
+          overlays = [ self.overlays.default ];
+        };
+        inherit (pkgs) lib;
+        overlayAttrs = builtins.attrNames (import ./. pkgs pkgs);
+      in
+      {
+        packages =
+          let
+            drvAttrs = builtins.filter (n: lib.isDerivation pkgs.${n}) overlayAttrs;
+          in
+          lib.listToAttrs (map (n: lib.nameValuePair n pkgs.${n}) drvAttrs);
+
+        checks = {
+          pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              nixpkgs-fmt.enable = true;
+              nix-linter.enable = true;
+              statix.enable = true;
             };
           };
-          devShells.default = pkgs.mkShell {
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
-            buildInputs = with pkgs; [
-              pre-commit
-            ];
-          };
-        }
-      ) // {
-      # Inidividual overlays.
-      overlays = {
-        openshift = _: prev: {
-          inherit (prev.callPackage ./packages/oc.nix { })
-            oc_4_9
-            oc_4_10
-            oc_4_11
-            oc
-            ;
-          inherit (prev.callPackage ./packages/openshift-install.nix { })
-            openshift-install_4_3
-            openshift-install_4_4
-            openshift-install_4_5
-            openshift-install_4_6
-            openshift-install_4_7
-            openshift-install_4_8
-            openshift-install_4_9
-            openshift-install_4_10
-            openshift-install_4_11
-            openshift-install
-            ;
-          inherit (prev.callPackage ./packages/odo.nix { })
-            odo_1_2
-            odo_2_0
-            odo_2_1
-            odo_2_2
-            odo_2_3
-            odo
-            ;
-          # Operator SDK
-          inherit (prev.callPackage ./packages/operator-sdk.nix { })
-            operator-sdk_1
-            operator-sdk_1_25
-            operator-sdk_1_24
-            operator-sdk_1_23
-            operator-sdk_1_22
-            operator-sdk
-            ;
-          # OPM
-          inherit (prev.callPackage ./packages/opm.nix { })
-            opm_1_26
-            opm
-            ;
         };
-        default = _: _: { };
-      };
-    };
+        devShells.default = pkgs.mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
+          buildInputs = with pkgs; [
+            pre-commit
+          ];
+        };
+      }
+    );
 }
 

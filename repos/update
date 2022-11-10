@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p curl nix coreutils xmlstarlet
+#! nix-shell -i bash -p curl nix coreutils xmlstarlet go
 set -euxo pipefail
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
@@ -23,4 +23,14 @@ function update_github_repo() {
     echo "{\"type\": \"github\", \"owner\": \"${owner}\", \"repo\": \"${repo}\", \"rev\": \"${commit_sha}\", \"sha256\": \"${digest}\", \"version\": \"${version_number}\"}" > $repo-$output_branch.json
 }
 
+function update_openshift_mirror() {
+    name=$1
+    filename=$2
+
+    go run . -version "4.9,4.10,4.11" -arch "aarch64,x86_64" -platform "darwin,linux" ${filename} > ${name}.json
+}
+
 update_github_repo openshift oc master
+
+update_openshift_mirror oc openshift-client
+update_openshift_mirror openshift-install openshift-install

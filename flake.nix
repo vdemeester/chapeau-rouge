@@ -1,6 +1,7 @@
 {
   description = "Chapeau rouge, an overlay of Red Hat tools for Nix";
 
+
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 
@@ -36,8 +37,8 @@
             src = ./.;
             hooks = {
               nixpkgs-fmt.enable = true;
-              nix-linter.enable = true;
-              statix.enable = true;
+              # nix-linter.enable = true;
+              # statix.enable = true;
             };
           };
         };

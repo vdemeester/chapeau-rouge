@@ -1,4 +1,4 @@
-{ lib, buildGo117Module, fetchFromGitHub }:
+{ lib, buildGoModule, fetchFromGitHub }:
 
 with lib;
 rec {
@@ -8,7 +8,7 @@ rec {
     , vendorSha256
     }:
 
-    buildGo117Module rec {
+    buildGoModule rec {
       inherit vendorSha256;
       pname = "opm";
       name = "${pname}-${version}";

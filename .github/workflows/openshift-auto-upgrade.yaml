@@ -26,5 +26,6 @@ jobs:
           ./update
       - name: Push commit with updated inputs
         run: |
+          git status
           git pull --rebase --autostash
           git push

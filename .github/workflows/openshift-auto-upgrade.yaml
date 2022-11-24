@@ -28,5 +28,6 @@ jobs:
         run: |
           git status
           git add repos
+          git commit -m "Auto-update packages"
           git pull --rebase --autostash
           git push

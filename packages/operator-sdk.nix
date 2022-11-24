@@ -66,16 +66,16 @@ rec {
     vendorSha256 = "sha256-3/kU+M+oKaPJkqMNuvd1ANlHRnXhaUrofj/rl3CS5Ao=";
   };
   operator-sdk_1_24 = makeOverridable operatorSdkGen {
-    version = "1.24.0";
+    version = "1.24.1";
     k8sVersion = "1.24";
-    sha256 = "sha256-Gc3TnGxKHmxwu+fhxxU/QmSMufRiiZhrFeoeZCRya7w=";
+    sha256 = "sha256-6Al9EkAnaa7/wJzV4xy6FifPXa4MdA9INwJWpkWzCb8=";
     vendorSha256 = "sha256-eczTVlArpO+uLC6IsTkj4LBIi+fXq7CMBf1zJShDN58=";
   };
   operator-sdk_1_25 = makeOverridable operatorSdkGen {
-    version = "1.25.0";
+    version = "1.25.2";
     k8sVersion = "1.25";
-    sha256 = "sha256-Ej+Ai5bxqT3x/snFD0WaakcXlHCWJQh3vanyUJyJ/ks=";
-    vendorSha256 = "sha256-7I/Hcrp50Nyp2yjALoEX/+sr3B/XJ8JKmkAB1SgAuGg=";
+    sha256 = "sha256-ZGcXb4RP+4ae0aAcLNL9JKLUqyoO5qCShDDbbxoge1w=";
+    vendorSha256 = "sha256-1Vz+SIrNULajDqzZt53+o9wv1zLPBvKrO28BTqS4VbM=";
   };
   operator-sdk_1 = operator-sdk_1_25;
   operator-sdk = operator-sdk_1;

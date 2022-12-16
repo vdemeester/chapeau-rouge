@@ -66,4 +66,11 @@ in
     # master based build
     # opm-git
     ;
+  # operator-tool(ing) = …
+  # opc
+  inherit (super.callPackage ../packages/opc.nix { })
+    opc_1_19
+    opc
+    opc-git
+    ;
 }

@@ -59,7 +59,21 @@ rec {
       '';
     };
 
-  oc = oc_4_11;
+  oc = oc_4_13;
+  oc_4_13 = makeOverridable ocGen {
+    version = versionsMeta."4.13".version;
+    aarch64-darwin-sha256 = versionsMeta."4.13".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.13".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.13".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.13".linux.x86_64;
+  };
+  oc_4_12 = makeOverridable ocGen {
+    version = versionsMeta."4.12".version;
+    aarch64-darwin-sha256 = versionsMeta."4.12".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.12".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.12".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.12".linux.x86_64;
+  };
   oc_4_11 = makeOverridable ocGen {
     version = versionsMeta."4.11".version;
     aarch64-darwin-sha256 = versionsMeta."4.11".darwin.aarch64;

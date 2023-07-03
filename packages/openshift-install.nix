@@ -48,6 +48,9 @@ rec {
       installPhase = ''
         runHook preInstall
         install -D ${name}/openshift-install $out/bin/openshift-install
+        patchelf \
+          --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
+          $out/bin/openshift-install || true # in case it is dynamically linked
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/openshift-install completion bash > $out/share/bash-completion/completions/openshift-install
@@ -62,7 +65,21 @@ rec {
       };
     };
 
-  openshift-install = openshift-install_4_11;
+  openshift-install = openshift-install_4_13;
+  openshift-install_4_13 = makeOverridable openshiftInstallGen {
+    version = versionsMeta."4.13".version;
+    aarch64-darwin-sha256 = versionsMeta."4.13".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.13".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.13".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.13".linux.x86_64;
+  };
+  openshift-install_4_12 = makeOverridable openshiftInstallGen {
+    version = versionsMeta."4.12".version;
+    aarch64-darwin-sha256 = versionsMeta."4.12".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.12".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.12".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.12".linux.x86_64;
+  };
   openshift-install_4_11 = makeOverridable openshiftInstallGen {
     version = versionsMeta."4.11".version;
     aarch64-darwin-sha256 = versionsMeta."4.11".darwin.aarch64;

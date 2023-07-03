@@ -55,6 +55,11 @@ in
   # Operator SDK
   inherit (super.callPackage ../packages/operator-sdk.nix { })
     operator-sdk_1
+    operator-sdk_1_30
+    operator-sdk_1_29
+    operator-sdk_1_28
+    operator-sdk_1_27
+    operator-sdk_1_26
     operator-sdk_1_25
     operator-sdk_1_24
     operator-sdk_1_23
@@ -65,6 +70,8 @@ in
     ;
   # OPM
   inherit (super.callPackage ../packages/opm.nix { })
+    opm_1_28
+    opm_1_27
     opm_1_26
     opm
     # master based build
@@ -73,7 +80,7 @@ in
   # operator-tool(ing) = …
   # opc
   inherit (super.callPackage ../packages/opc.nix { })
-    opc_1_19
+    opc_1_9
     opc
     opc-git
     ;

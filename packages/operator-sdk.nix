@@ -1,4 +1,4 @@
-{ stdenv, lib, buildGo118Module, fetchFromGitHub, sqlite }:
+{ stdenv, lib, buildGo119Module, fetchFromGitHub, sqlite }:
 
 with lib;
 rec {
@@ -9,7 +9,7 @@ rec {
     , vendorSha256
     }:
 
-    buildGo118Module rec {
+    buildGo119Module rec {
       inherit vendorSha256;
       pname = "operator-sdk";
       name = "${pname}-${version}";
@@ -72,11 +72,41 @@ rec {
     vendorSha256 = "sha256-eczTVlArpO+uLC6IsTkj4LBIi+fXq7CMBf1zJShDN58=";
   };
   operator-sdk_1_25 = makeOverridable operatorSdkGen {
-    version = "1.25.2";
+    version = "1.25.4";
     k8sVersion = "1.25";
-    sha256 = "sha256-ZGcXb4RP+4ae0aAcLNL9JKLUqyoO5qCShDDbbxoge1w=";
-    vendorSha256 = "sha256-1Vz+SIrNULajDqzZt53+o9wv1zLPBvKrO28BTqS4VbM=";
+    sha256 = "sha256-uLWGE/FL4sfcFz9caVMgdFGzH8jsuFIXNAT8PdhqUio=";
+    vendorSha256 = "sha256-L+Z1k+z/XNO9OeTQVzNJd1caRip6Ti8mPfNmXJx5D5c=";
   };
-  operator-sdk_1 = operator-sdk_1_25;
+  operator-sdk_1_26 = makeOverridable operatorSdkGen {
+    version = "1.26.1";
+    k8sVersion = "1.25";
+    sha256 = "sha256-D82tFN0EUmcRUkXf8kSaxzVacS+Ggwa+8D5f8ZSvVy0=";
+    vendorSha256 = "sha256-L+Z1k+z/XNO9OeTQVzNJd1caRip6Ti8mPfNmXJx5D5c=";
+  };
+  operator-sdk_1_27 = makeOverridable operatorSdkGen {
+    version = "1.27.0";
+    k8sVersion = "1.25";
+    sha256 = "sha256-rvLWM6G2kOOuFU0JuwdIjSCFNyjBNL+fOoEj+tIR190=";
+    vendorSha256 = "sha256-L+Z1k+z/XNO9OeTQVzNJd1caRip6Ti8mPfNmXJx5D5c=";
+  };
+  operator-sdk_1_28 = makeOverridable operatorSdkGen {
+    version = "1.28.1";
+    k8sVersion = "1.26";
+    sha256 = "sha256-YzkPAKwkV8io0lz7JxIX4lciv85iqldkyitrLicbFJc=";
+    vendorSha256 = "sha256-ZWOIF3vmtoXzdGHHzjPy/351bHzMTTXcgSRBso+ixyM=";
+  };
+  operator-sdk_1_29 = makeOverridable operatorSdkGen {
+    version = "1.29.0";
+    k8sVersion = "1.26";
+    sha256 = "sha256-oHGs1Bx5k02k6mp9WAe8wIQ4FjMOREcUYv0DKZaXGdE==";
+    vendorSha256 = "sha256-I2vL4uRmUbgaf3KGUHSQV2jWozStKHyjek3BQlxyY/c=";
+  };
+  operator-sdk_1_30 = makeOverridable operatorSdkGen {
+    version = "1.30.0";
+    k8sVersion = "1.26";
+    sha256 = "sha256-mDjBu25hOhm3FrUDsFq1rjBn58K91Bao8gqN2heZ9ps=";
+    vendorSha256 = "sha256-QfTWjSsWpbbGgKrv4U2E6jA6eAT4wnj0ixpUqDxtsY8=";
+  };
+  operator-sdk_1 = operator-sdk_1_30;
   operator-sdk = operator-sdk_1;
 }

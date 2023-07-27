@@ -32,6 +32,7 @@ function update_openshift_mirror() {
 
 update_github_repo openshift oc master
 update_github_repo openshift-pipelines opc main
+update_github_repo gmeghnag omc main
 
 update_openshift_mirror oc openshift-client
 update_openshift_mirror openshift-install openshift-install

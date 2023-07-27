@@ -77,6 +77,12 @@ in
     # master based build
     # opm-git
     ;
+  # omc
+  inherit (super.callPackage ../packages/omc.nix { })
+    omc
+    omc_3_2
+    omc-git
+    ;
   # operator-tool(ing) = …
   # opc
   inherit (super.callPackage ../packages/opc.nix { })

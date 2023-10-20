@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'vdemeester'
     steps:
-      - name: ${{ project }}
+      - name: ${{ matrix.project }}
         uses: git-for-windows/rss-to-issues@v0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          feed: https://github.com/${{ project }}/releases.atom
-          prefix: "[${{ project }}]"
+          feed: https://github.com/${{ matrix.project }}/releases.atom
+          prefix: "[${{ matrix.project }}]"
           dry-run: false
           max-age: 72h
 

@@ -6,38 +6,22 @@ on:
 
 jobs:
   watch-releases:
+    strategy:
+      matrix:
+        project:
+          - operator-framework/operator-sdk
+          - operator-framework/operator-registry
+          - gmeghnag/omc
+          - openshift-pipelines/opc
     runs-on: ubuntu-latest
     if: github.repository_owner == 'vdemeester'
     steps:
-      - name: operator-sdk
+      - name: ${{ project }}
         uses: git-for-windows/rss-to-issues@v0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          feed: https://github.com/operator-framework/operator-sdk/releases.atom
-          prefix: "[operator-sdk]"
+          feed: https://github.com/${{ project }}/releases.atom
+          prefix: "[${{ project }}]"
           dry-run: false
           max-age: 72h
-      - name: opm
-        uses: git-for-windows/rss-to-issues@v0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          feed: https://github.com/operator-framework/operator-registry/releases.atom
-          prefix: "[opm]"
-          dry-run: false
-          max-age: 72h
-      - name: omc
-        uses: git-for-windows/rss-to-issues@v0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          feed: https://github.com/gmeghnag/omc/releases.atom
-          prefix: "[omc]"
-          dry-run: false
-          max-age: 72h
-      - name: opc
-        uses: git-for-windows/rss-to-issues@v0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          feed: https://github.com/openshift-pipelines/opc/releases.atom
-          prefix: "[opc]"
-          dry-run: false
-          max-age: 72h
+

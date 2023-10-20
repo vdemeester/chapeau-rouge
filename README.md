@@ -11,7 +11,7 @@ This repository provides the following overlays:
   `operator-sdk`, …
 
 ## Quickstart
-To get up and running quickly, add the following lines to your =/etc/nixos/configuration.nix=:
+To get up and running quickly, add the following lines to your `/etc/nixos/configuration.nix`:
 
 ```nix
 {config, pkgs, callPackage, ... }:
@@ -57,3 +57,8 @@ To get up and running quickly, add the following lines to your =/etc/nixos/confi
   # ...
 }
 ```
+
+## Questions
+
+- **Why is it call "Chapeau Rouge" ?**
+	This is a reference to the [Red Hat](https://en.wikipedia.org/wiki/Red_Hat) company name, which is a french expression for "Red Hat".

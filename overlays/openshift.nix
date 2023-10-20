@@ -91,6 +91,7 @@ in
   # operator-tool(ing) = …
   # opc
   inherit (super.callPackage ../packages/opc.nix { })
+    opc_1_12
     opc_1_11
     opc_1_10
     opc_1_9

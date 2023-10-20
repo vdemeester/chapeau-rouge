@@ -37,6 +37,10 @@ rec {
       };
     };
 
+  opc_1_12 = makeOverridable opcGen {
+    version = "1.12.1";
+    sha256 = "sha256-irOv4GuFl+LQw3p47szpP5+B0Mfo5sTuA6ynRN6FwKI=";
+  };
   opc_1_11 = makeOverridable opcGen {
     version = "1.11.0-rc1";
     sha256 = "sha256-8V1TVXxHPO2GTK0jyOrzgHpm9lsEFJMmxJ7LT1tq5mk=";
@@ -49,7 +53,7 @@ rec {
     version = "1.9.0-rc1-2";
     sha256 = "sha256-NcmPA2UXKXTKQPztgIe0C0fwvIzjRSnuXQsikBPdgPc=";
   };
-  opc = opc_1_11;
+  opc = opc_1_12;
 
   opc-git =
     let

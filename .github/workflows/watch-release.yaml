@@ -1,0 +1,19 @@
+name: whatch-releases
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule:
+    - cron: "37 4 * * *" # run every day at 4:37am UTC
+
+jobs:
+  refresh-packages:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'vdemeester'
+    steps:
+      - uses: git-for-windows/rss-to-issues@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          feed: https://github.com/operator-framework/operator-sdk/releases.atom
+          prefix: "[operator-sdk]"
+          character-limit: 255
+          dry-run: false
+          # max-age: 48h

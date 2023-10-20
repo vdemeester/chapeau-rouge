@@ -15,7 +15,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           feed: https://github.com/operator-framework/operator-sdk/releases.atom
           prefix: "[operator-sdk]"
-          character-limit: 255
           dry-run: false
           max-age: 72h
       - name: opm
@@ -24,6 +23,21 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           feed: https://github.com/operator-framework/operator-registry/releases.atom
           prefix: "[opm]"
-          character-limit: 255
+          dry-run: false
+          max-age: 72h
+      - name: omc
+        uses: git-for-windows/rss-to-issues@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          feed: https://github.com/gmeghnag/omc/releases.atom
+          prefix: "[omc]"
+          dry-run: false
+          max-age: 72h
+      - name: opc
+        uses: git-for-windows/rss-to-issues@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          feed: https://github.com/openshift-pipelines/opc/releases.atom
+          prefix: "[opc]"
           dry-run: false
           max-age: 72h

@@ -52,9 +52,9 @@ rec {
     };
 
   opm_1_30 = makeOverridable opmGen {
-    version = "1.30.0";
-    sha256 = "sha256-Gt5dq+/2x1Xi4hyqqUsgy1+7V5ei/2HTf5mu9YWj/qs=";
-    vendorSha256 = "sha256-Rez3apGsPdMEZqjwxWSGPYwJzdvS6C39uyhZch1z8rk=";
+    version = "1.30.1";
+    sha256 = "sha256-2uSfIAIaIeb2DACWaueVjvTiuumzDUqLmVXi34Pj1iM=";
+    vendorSha256 = "sha256-5R+gFjgFchcCSxGij0KvpSUOVsfgOY/M3PW9Npv0obg=";
   };
   opm_1_29 = makeOverridable opmGen {
     version = "1.29.0";

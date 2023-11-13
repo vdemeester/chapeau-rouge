@@ -1,4 +1,4 @@
-{ stdenv, lib, buildGo119Module, fetchFromGitHub }:
+{ stdenv, lib, buildGo120Module, fetchFromGitHub }:
 
 with lib;
 rec {
@@ -7,7 +7,7 @@ rec {
     , sha256
     , rev ? "v${version}"
     }:
-    buildGo119Module rec {
+    buildGo120Module rec {
       pname = "opc";
       name = "${pname}-${version}";
 
@@ -37,6 +37,10 @@ rec {
       };
     };
 
+  opc_1_13 = makeOverridable opcGen {
+    version = "1.13.0";
+    sha256 = "sha256-yeJV6hSs6T19xThqDibbbuWvpz1uU8/lpDE1mMZmVHA=";
+  };
   opc_1_12 = makeOverridable opcGen {
     version = "1.12.1";
     sha256 = "sha256-irOv4GuFl+LQw3p47szpP5+B0Mfo5sTuA6ynRN6FwKI=";

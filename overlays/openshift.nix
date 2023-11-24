@@ -88,6 +88,12 @@ in
     omc_3_3
     omc-git
     ;
+  # koff
+  inherit (super.callPackage ../packages/koff.nix { })
+    koff
+    koff_0_10
+    koff-git
+    ;
   # operator-tool(ing) = …
   # opc
   inherit (super.callPackage ../packages/opc.nix { })

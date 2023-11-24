@@ -17,7 +17,7 @@ rec {
         repo = "opc";
         sha256 = "${sha256}";
       };
-      vendorSha256 = null;
+      vendorHash = null;
 
       patchPhase = ''
         sed -i 's/devel/${version}/' ./pkg/version.json

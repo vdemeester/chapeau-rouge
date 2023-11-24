@@ -29,7 +29,7 @@ rec {
         repo = "omc";
         sha256 = "${sha256}";
       };
-      vendorSha256 = null;
+      vendorHash = null;
 
       doCheck = false;
       preBuild = ''

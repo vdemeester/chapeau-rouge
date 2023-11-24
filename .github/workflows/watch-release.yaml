@@ -11,6 +11,7 @@ jobs:
         project:
           - operator-framework/operator-sdk
           - operator-framework/operator-registry
+          - gmeghnag/koff
           - gmeghnag/omc
           - openshift-pipelines/opc
     runs-on: ubuntu-latest

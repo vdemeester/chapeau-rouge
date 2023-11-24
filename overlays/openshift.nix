@@ -19,14 +19,12 @@ let
               name = "${namePrefix}-${repoMeta.version}";
               inherit (repoMeta) version rev;
               src = fetcher (builtins.removeAttrs repoMeta [ "type" "version" ]);
-              buildPhase = ''
-                # Openshift build require this variables to be set
-                # unless there is a .git folder which is not the case with fetchFromGitHub
-                export SOURCE_GIT_COMMIT=${repoMeta.rev}
-                export SOURCE_GIT_TAG=v${repoMeta.version}
-                export SOURCE_GIT_TREE_STATE=clean
-                make all
-              '';
+              ldflags = [
+                "-s"
+                "-w"
+                "-X github.com/openshift/oc/pkg/version.commitFromGit=${repoMeta.rev}"
+                "-X github.com/openshift/oc/pkg/version.versionFromGit=v${repoMeta.version}"
+              ];
             }
           )
         )

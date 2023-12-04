@@ -59,7 +59,14 @@ rec {
       '';
     };
 
-  oc = oc_4_13;
+  oc = oc_4_14;
+  oc_4_14 = makeOverridable ocGen {
+    version = versionsMeta."4.14".version;
+    aarch64-darwin-sha256 = versionsMeta."4.14".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.14".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.14".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.14".linux.x86_64;
+  };
   oc_4_13 = makeOverridable ocGen {
     version = versionsMeta."4.13".version;
     aarch64-darwin-sha256 = versionsMeta."4.13".darwin.aarch64;

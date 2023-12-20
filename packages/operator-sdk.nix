@@ -119,6 +119,12 @@ rec {
     sha256 = "sha256-sWnHx9IKwr6um9YlrF2ULQ7HZo0TNC4MpWHTVpmWqFs=";
     vendorHash = "sha256-Gl0LUlMLeku2B5DkWpzeoXfMLb/OnOx4Urw4RF4cuTQ=";
   };
-  operator-sdk_1 = operator-sdk_1_32;
+  operator-sdk_1_33 = makeOverridable operatorSdkGen {
+    version = "1.33.0";
+    k8sVersion = "1.27";
+    sha256 = "sha256-Q8G/B9apvjvW45WSPXHSn6e5mZSsahNl6ymfguOeSa0=";
+    vendorHash = "sha256-WoebO6RDwDyflXwHTJxRLAyNpmic2gahIaLO/i6Q1cc=";
+  };
+  operator-sdk_1 = operator-sdk_1_33;
   operator-sdk = operator-sdk_1;
 }

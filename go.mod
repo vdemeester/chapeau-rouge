@@ -4,12 +4,12 @@ go 1.18
 
 require (
 	github.com/Masterminds/semver v1.5.0
-	github.com/antchfx/htmlquery v1.2.5
+	github.com/antchfx/htmlquery v1.3.0
 )
 
 require (
-	github.com/antchfx/xpath v1.2.1 // indirect
-	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
-	golang.org/x/net v0.0.0-20200421231249-e086a090c8fd // indirect
-	golang.org/x/text v0.3.0 // indirect
+	github.com/antchfx/xpath v1.2.3 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	golang.org/x/net v0.5.0 // indirect
+	golang.org/x/text v0.6.0 // indirect
 )

@@ -18,7 +18,7 @@ jobs:
     if: github.repository_owner == 'vdemeester'
     steps:
       - name: ${{ matrix.project }}
-        uses: git-for-windows/rss-to-issues@48c22f7f733ca11653f08694a2868fcda4246e89 # v0.3.4
+        uses: git-for-windows/rss-to-issues@44ef58301d5c8257c00e3ae0a233d9659a5e0f4f # v0.0.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           feed: https://github.com/${{ matrix.project }}/releases.atom

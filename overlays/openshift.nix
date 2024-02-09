@@ -94,6 +94,7 @@ in
   # koff
   inherit (super.callPackage ../packages/koff.nix { })
     koff
+    koff_0_11
     koff_0_10
     koff-git
     ;

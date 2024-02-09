@@ -53,11 +53,15 @@ rec {
       };
     };
 
+  koff_0_11 = makeOverridable koffGen {
+    version = "0.11.0";
+    sha256 = "sha256-8sS02JSt98/Ixe3V2IX+5bHA2KP4grBSn97AeyJizjI=";
+  };
   koff_0_10 = makeOverridable koffGen {
     version = "0.10.0";
     sha256 = "sha256-QleDch0c95GUgo9fnNdW7Gt+BmggCaYdgkmiOZFO1/E=";
   };
-  koff = koff_0_10;
+  koff = koff_0_11;
 
   koff-git =
     let

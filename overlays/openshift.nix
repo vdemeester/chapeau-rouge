@@ -71,6 +71,9 @@ in
     ;
   # OPM
   inherit (super.callPackage ../packages/opm.nix { })
+    opm_1_36
+    opm_1_35
+    opm_1_34
     opm_1_33
     opm_1_32
     opm_1_31

@@ -1,4 +1,4 @@
-{ stdenv, lib, buildGo119Module, fetchFromGitHub, sqlite }:
+{ stdenv, lib, buildGo121Module, fetchFromGitHub, sqlite }:
 
 with lib;
 rec {
@@ -9,7 +9,7 @@ rec {
     , vendorHash
     }:
 
-    buildGo119Module rec {
+    buildGo121Module rec {
       inherit vendorHash;
       pname = "operator-sdk";
       name = "${pname}-${version}";

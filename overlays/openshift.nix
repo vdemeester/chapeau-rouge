@@ -53,6 +53,7 @@ in
   # Operator SDK
   inherit (super.callPackage ../packages/operator-sdk.nix { })
     operator-sdk_1
+    operator-sdk_1_34
     operator-sdk_1_33
     operator-sdk_1_32
     operator-sdk_1_31

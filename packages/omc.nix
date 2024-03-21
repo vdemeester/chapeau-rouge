@@ -54,6 +54,10 @@ rec {
       };
     };
 
+  omc_3_6 = makeOverridable omcGen {
+    version = "3.6.0";
+    sha256 = "sha256-31rAIP1tpLL3CE0j/g7a6nMTL/tOo8SSuNB2QfzRgIM=";
+  };
   omc_3_4 = makeOverridable omcGen {
     version = "3.4.0";
     sha256 = "sha256-4SCb4Ao31RRRlqr2kxBNPxsn00XewV2Lrf1RyGvM1N0=";
@@ -66,7 +70,7 @@ rec {
     version = "3.2.0";
     sha256 = "sha256-GBfRjS8u+KKBLie2GmzeLbD08V/LKNF7cbC7fjMxUtw=";
   };
-  omc = omc_3_4;
+  omc = omc_3_6;
 
   omc-git =
     let

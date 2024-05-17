@@ -38,8 +38,8 @@ rec {
     };
 
   opc_1_14 = makeOverridable opcGen {
-    version = "1.14.0";
-    sha256 = "sha256-U6vdXDwTHCvRkk+SwZN1laDVuImlxeNQKUOB0KFiM7o=";
+    version = "1.14.3";
+    sha256 = "sha256-c24TCLlnrRlPxBBO4fFpkz2+ITneJXaXjedLYYrYy2g=";
   };
   opc_1_13 = makeOverridable opcGen {
     version = "1.13.0";

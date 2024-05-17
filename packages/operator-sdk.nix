@@ -126,9 +126,9 @@ rec {
     vendorHash = "sha256-WoebO6RDwDyflXwHTJxRLAyNpmic2gahIaLO/i6Q1cc=";
   };
   operator-sdk_1_34 = makeOverridable operatorSdkGen {
-    version = "1.34.1";
+    version = "1.34.2";
     k8sVersion = "1.28";
-    sha256 = "sha256-3S7jR76b9MZpqn4Hj9yhjfravBk1PiESJEbG5XR4tnI=";
+    sha256 = "sha256-vVa1ljPRSHSo7bVqPkRt/jbuSlzLmnVaLnyreskwOrM=";
     vendorHash = "sha256-YspUrnSS6d8Ta8dmUjx9A5D/V5Bqm08DQJrRBaIGyQg=";
   };
   operator-sdk_1 = operator-sdk_1_34;

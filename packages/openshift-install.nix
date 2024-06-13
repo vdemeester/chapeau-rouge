@@ -6,11 +6,7 @@ let
 in
 rec {
   openshiftInstallGen =
-    { version
-    , aarch64-darwin-sha256
-    , aarch64-linux-sha256
-    , x86_64-darwin-sha256
-    , x86_64-linux-sha256
+    { versionData
     }:
 
     let
@@ -21,20 +17,20 @@ rec {
         else if (stdenv.isx86_64 && stdenv.isDarwin) then "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-mac-${version}.tar.gz"
         else if (stdenv.isx86_64 && stdenv.isLinux) then "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-linux-${version}.tar.gz"
         else throw "unsupported platform";
-      sha256 =
-        if (stdenv.isAarch64 && stdenv.isDarwin) then aarch64-darwin-sha256
-        else if (stdenv.isAarch64 && stdenv.isLinux) then aarch64-linux-sha256
-        else if (stdenv.isx86_64 && stdenv.isDarwin) then x86_64-darwin-sha256
-        else if (stdenv.isx86_64 && stdenv.isLinux) then x86_64-linux-sha256
+      sha256 = data:
+        if (stdenv.isAarch64 && stdenv.isDarwin) then data.darwin.aarch64
+        else if (stdenv.isAarch64 && stdenv.isLinux) then data.linux.aarch64
+        else if (stdenv.isx86_64 && stdenv.isDarwin) then data.darwin.x86_64
+        else if (stdenv.isx86_64 && stdenv.isLinux) then data.linux.x86_64
         else throw "unsupported platform";
     in
     stdenv.mkDerivation rec {
       pname = "openshift-install";
-      name = "${pname}-${version}";
+      name = "${pname}-${versionData.version}";
 
       src = fetchurl {
-        url = getUrl version;
-        sha256 = "${sha256}";
+        url = getUrl versionData.version;
+        sha256 = "${sha256 versionData}";
       };
 
       phases = " unpackPhase installPhase fixupPhase ";
@@ -67,52 +63,15 @@ rec {
 
   openshift-install = openshift-install_4_15;
   openshift-install_4_15 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.15".version;
-    aarch64-darwin-sha256 = versionsMeta."4.15".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.15".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.15".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.15".linux.x86_64;
+    versionData = versionsMeta."4.15";
   };
   openshift-install_4_14 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.14".version;
-    aarch64-darwin-sha256 = versionsMeta."4.14".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.14".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.14".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.14".linux.x86_64;
+    versionData = versionsMeta."4.14";
   };
   openshift-install_4_13 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.13".version;
-    aarch64-darwin-sha256 = versionsMeta."4.13".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.13".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.13".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.13".linux.x86_64;
+    versionData = versionsMeta."4.13";
   };
   openshift-install_4_12 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.12".version;
-    aarch64-darwin-sha256 = versionsMeta."4.12".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.12".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.12".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.12".linux.x86_64;
-  };
-  openshift-install_4_11 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.11".version;
-    aarch64-darwin-sha256 = versionsMeta."4.11".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.11".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.11".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.11".linux.x86_64;
-  };
-  openshift-install_4_10 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.10".version;
-    aarch64-darwin-sha256 = versionsMeta."4.10".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.10".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.10".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.10".linux.x86_64;
-  };
-  openshift-install_4_9 = makeOverridable openshiftInstallGen {
-    version = versionsMeta."4.9".version;
-    aarch64-darwin-sha256 = versionsMeta."4.9".darwin.aarch64;
-    aarch64-linux-sha256 = versionsMeta."4.9".linux.aarch64;
-    x86_64-darwin-sha256 = versionsMeta."4.9".darwin.x86_64;
-    x86_64-linux-sha256 = versionsMeta."4.9".linux.x86_64;
+    versionData = versionsMeta."4.12";
   };
 }

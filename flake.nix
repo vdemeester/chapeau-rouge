@@ -16,7 +16,7 @@
           # package = final: prev: import ./overlays/package.nix final prev;
         };
       };
-      systems = [ "aarch64-linux" "x86_64-linux" "x86_64-darwin" "x86_64-aarch64" ];
+      systems = [ "aarch64-linux" "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
       perSystem = { system, config, ... }:
         let
           pkgs = import nixpkgs {

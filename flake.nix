@@ -26,11 +26,16 @@
           };
           inherit (pkgs) lib;
           overlayAttrs = builtins.attrNames (import ./overlays pkgs pkgs);
+          skipDarwinPackages = system: n:
+            if lib.strings.hasSuffix "darwin" system then !(
+              lib.strings.hasPrefix "koff" n
+            )
+            else true;
         in
         {
           packages =
             let
-              drvAttrs = builtins.filter (n: lib.isDerivation pkgs.${n}) overlayAttrs;
+              drvAttrs = builtins.filter (n: lib.isDerivation pkgs.${n} && skipDarwinPackages system n) overlayAttrs;
             in
             lib.listToAttrs (map (n: lib.nameValuePair n pkgs.${n}) drvAttrs);
           checks = {

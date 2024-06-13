@@ -56,14 +56,6 @@ in
     operator-sdk_1_32
     operator-sdk_1_31
     operator-sdk_1_30
-    operator-sdk_1_29
-    operator-sdk_1_28
-    operator-sdk_1_27
-    operator-sdk_1_26
-    operator-sdk_1_25
-    operator-sdk_1_24
-    operator-sdk_1_23
-    operator-sdk_1_22
     operator-sdk
     # master based build
     # operator-sdk-git
@@ -74,19 +66,6 @@ in
     opm_1_41
     opm_1_40
     opm_1_39
-    opm_1_38
-    opm_1_37
-    opm_1_36
-    opm_1_35
-    opm_1_34
-    opm_1_33
-    opm_1_32
-    opm_1_31
-    opm_1_30
-    opm_1_29
-    opm_1_28
-    opm_1_27
-    opm_1_26
     opm
     # master based build
     # opm-git
@@ -113,9 +92,6 @@ in
     opc_1_14
     opc_1_13
     opc_1_12
-    opc_1_11
-    opc_1_10
-    opc_1_9
     opc
     opc-git
     ;

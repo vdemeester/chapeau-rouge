@@ -18,14 +18,16 @@ const (
 )
 
 var (
-	versions  string
-	archs     string
-	platforms string
+	versions    string
+	archs       string
+	targetArchs string
+	platforms   string
 )
 
 func main() {
 	flag.StringVar(&versions, "version", "", "versions to list / extract")
 	flag.StringVar(&archs, "arch", "", "architectures to list / extract")
+	flag.StringVar(&targetArchs, "targetarch", "", "target architectures to list / extract")
 	flag.StringVar(&platforms, "platform", "", "platform to list / extract")
 	flag.Parse()
 
@@ -44,7 +46,7 @@ func main() {
 
 	m := map[string]interface{}{}
 	for prefix, v := range versionsToFetch {
-		shas, err := fetchVersion(filename, v, strings.Split(archs, ","), strings.Split(platforms, ","))
+		shas, err := fetchVersion(filename, v, strings.Split(archs, ","), strings.Split(targetArchs, ","), strings.Split(platforms, ","))
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
@@ -60,7 +62,7 @@ func main() {
 	fmt.Fprintf(os.Stdout, "%s", string(j))
 }
 
-func fetchVersion(filename, version string, archs, platforms []string) (map[string]interface{}, error) {
+func fetchVersion(filename, version string, archs, targetArchs, platforms []string) (map[string]interface{}, error) {
 	m := map[string]interface{}{
 		"version": version,
 	}
@@ -69,17 +71,28 @@ func fetchVersion(filename, version string, archs, platforms []string) (map[stri
 		if platform == "darwin" {
 			realplatform = "mac"
 		}
-		pm := map[string]string{}
+		pm := map[string]interface{}{}
 		for _, arch := range archs {
-			url := fmt.Sprintf("https://mirror.openshift.com/pub/openshift-v4/%s/clients/ocp/%s/%s-%s-%s.tar.gz",
-				arch, version, filename, realplatform, version)
-			args := []string{"--type", "sha256", url}
-			fmt.Fprintf(os.Stderr, "Fetching %s...\n", url)
-			out, err := exec.Command("nix-prefetch-url", args...).Output()
-			if err != nil {
-				return m, err
+			tpm := map[string]string{}
+			for _, targetArch := range targetArchs {
+				var url string
+				if (targetArch == "arm64" && arch == "aarch64") || (targetArch == "amd64" && arch == "x86_64") {
+					url = fmt.Sprintf("https://mirror.openshift.com/pub/openshift-v4/%s/clients/ocp/%s/%s-%s-%s.tar.gz",
+						arch, version, filename, realplatform, version)
+				} else {
+					url = fmt.Sprintf("https://mirror.openshift.com/pub/openshift-v4/%s/clients/ocp/%s/%s-%s-%s-%s.tar.gz",
+						arch, version, filename, realplatform, targetArch, version)
+				}
+				args := []string{"--type", "sha256", url}
+				fmt.Fprintf(os.Stderr, "Fetching %s...\n", url)
+				out, err := exec.Command("nix-prefetch-url", args...).Output()
+				if err != nil {
+					return m, err
+				}
+				tpm[targetArch] = strings.TrimSpace(string(out))
+
 			}
-			pm[arch] = strings.TrimSpace(string(out))
+			pm[arch] = tpm
 		}
 		m[platform] = pm
 	}

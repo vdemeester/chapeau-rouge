@@ -46,7 +46,7 @@ rec {
         install -D ${name}/oc $out/bin/oc
         patchelf \
           --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
-          $out/bin/oc
+          $out/bin/oc || true # in case it is dynamically linked
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/oc completion bash > $out/share/bash-completion/completions/oc

@@ -65,7 +65,21 @@ rec {
       };
     };
 
-  openshift-install = openshift-install_4_13;
+  openshift-install = openshift-install_4_15;
+  openshift-install_4_15 = makeOverridable openshiftInstallGen {
+    version = versionsMeta."4.15".version;
+    aarch64-darwin-sha256 = versionsMeta."4.15".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.15".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.15".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.15".linux.x86_64;
+  };
+  openshift-install_4_14 = makeOverridable openshiftInstallGen {
+    version = versionsMeta."4.14".version;
+    aarch64-darwin-sha256 = versionsMeta."4.14".darwin.aarch64;
+    aarch64-linux-sha256 = versionsMeta."4.14".linux.aarch64;
+    x86_64-darwin-sha256 = versionsMeta."4.14".darwin.x86_64;
+    x86_64-linux-sha256 = versionsMeta."4.14".linux.x86_64;
+  };
   openshift-install_4_13 = makeOverridable openshiftInstallGen {
     version = versionsMeta."4.13".version;
     aarch64-darwin-sha256 = versionsMeta."4.13".darwin.aarch64;

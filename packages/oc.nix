@@ -65,7 +65,4 @@ rec {
   oc_4_13 = makeOverridable ocGen {
     versionData = versionsMeta."4.13";
   };
-  oc_4_12 = makeOverridable ocGen {
-    versionData = versionsMeta."4.12";
-  };
 }

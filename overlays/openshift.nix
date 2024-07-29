@@ -32,7 +32,6 @@ let
 in
 {
   inherit (super.callPackage ../packages/oc.nix { })
-    oc_4_12
     oc_4_13
     oc_4_14
     oc_4_15
@@ -40,7 +39,6 @@ in
     ;
   oc-git = mkGitOc "oc-git" ../repos/oc-master.json { };
   inherit (super.callPackage ../packages/openshift-install.nix { })
-    openshift-install_4_12
     openshift-install_4_13
     openshift-install_4_14
     openshift-install_4_15

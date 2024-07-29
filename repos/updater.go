@@ -46,7 +46,7 @@ func main() {
 	for prefix, v := range versionsToFetch {
 		shas, err := fetchVersion(filename, v, strings.Split(archs, ","), strings.Split(platforms, ","))
 		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
+			fmt.Fprintln(os.Stderr, "error fetching version", err)
 			os.Exit(1)
 		}
 		m[prefix] = shas
@@ -54,7 +54,7 @@ func main() {
 
 	j, err := json.Marshal(m)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, "error marshalling json", err)
 		os.Exit(1)
 	}
 	fmt.Fprintf(os.Stdout, "%s", string(j))
@@ -77,6 +77,7 @@ func fetchVersion(filename, version string, archs, platforms []string) (map[stri
 			fmt.Fprintf(os.Stderr, "Fetching %s...\n", url)
 			out, err := exec.Command("nix-prefetch-url", args...).Output()
 			if err != nil {
+				fmt.Fprintln(os.Stderr, "nix-prefetch-url", args, string(out))
 				return m, err
 			}
 			pm[arch] = strings.TrimSpace(string(out))

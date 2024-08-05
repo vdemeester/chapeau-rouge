@@ -27,7 +27,7 @@ function update_openshift_mirror() {
     name=$1
     filename=$2
 
-    go run . -version "4.13,4.14,4.15" -arch "aarch64,x86_64" -platform "darwin,linux" ${filename} > ${name}.json
+    go run . -version "4.13,4.14,4.15,4.16" -arch "aarch64,x86_64" -platform "darwin,linux" ${filename} > ${name}.json
 }
 
 update_github_repo openshift oc master

@@ -55,9 +55,12 @@ rec {
       '';
     };
 
-  oc = oc_4_16;
+  oc = oc_4_17;
+  oc_4_17 = makeOverridable ocGen {
+    versionData = versionsMeta."4.17";
+  };
   oc_4_16 = makeOverridable ocGen {
-    versionData = versionsMeta."4.15";
+    versionData = versionsMeta."4.16";
   };
   oc_4_15 = makeOverridable ocGen {
     versionData = versionsMeta."4.15";

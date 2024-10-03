@@ -53,6 +53,18 @@ rec {
       };
     };
 
+  operator-sdk_1_37 = makeOverridable operatorSdkGen {
+    version = "1.37.0";
+    k8sVersion = "1.29";
+    sha256 = "sha256-ANG9KpyEO+fpjelYU+HNTkbg2S0vFNyPzPRFjcLoLOI=";
+    vendorHash = "sha256-pr3WTUZetps/Gof8lttN2beomiobVPCgX0j9V77g5sI=";
+  };
+  operator-sdk_1_36 = makeOverridable operatorSdkGen {
+    version = "1.36.1";
+    k8sVersion = "1.29";
+    sha256 = "sha256-ZUWbM2g3l5uesM9QDlRqRo9gFipgaS8YyEbnIyRaMS0=";
+    vendorHash = "sha256-FEoAV3Fhmjhkc7sYfE1QQFmhOZbXps57mBD0fyvQq00=";
+  };
   operator-sdk_1_34 = makeOverridable operatorSdkGen {
     version = "1.34.2";
     k8sVersion = "1.28";
@@ -83,6 +95,6 @@ rec {
     sha256 = "sha256-mDjBu25hOhm3FrUDsFq1rjBn58K91Bao8gqN2heZ9ps=";
     vendorHash = "sha256-QfTWjSsWpbbGgKrv4U2E6jA6eAT4wnj0ixpUqDxtsY8=";
   };
-  operator-sdk_1 = operator-sdk_1_34;
+  operator-sdk_1 = operator-sdk_1_37;
   operator-sdk = operator-sdk_1;
 }

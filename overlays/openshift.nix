@@ -84,6 +84,7 @@ in
     omc_3_3
     omc_3_4
     omc_3_6
+    omc_3_7
     omc-git
     ;
   # koff

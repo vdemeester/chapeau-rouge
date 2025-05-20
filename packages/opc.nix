@@ -1,4 +1,4 @@
-{ stdenv, lib, buildGo122Module, fetchFromGitHub }:
+{ stdenv, lib, buildGoModule, fetchFromGitHub }:
 
 with lib;
 rec {
@@ -7,7 +7,7 @@ rec {
     , sha256
     , rev ? "v${version}"
     }:
-    buildGo122Module rec {
+    buildGoModule rec {
       pname = "opc";
       name = "${pname}-${version}";
 

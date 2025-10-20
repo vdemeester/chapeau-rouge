@@ -34,6 +34,9 @@ let
     ]);
 in
 {
+  inherit (super.callPackage ../packages/did.nix { })
+    did
+    ;
   inherit (super.callPackage ../packages/oc.nix { })
     oc_4_14
     oc_4_15

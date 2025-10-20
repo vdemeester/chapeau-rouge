@@ -1,11 +1,23 @@
 {
   description = "Chapeau rouge, an overlay of Red Hat tools for Nix";
 
-  outputs = inputs@{ self, nixpkgs, flake-parts, pre-commit-hooks, ... }:
+  outputs =
+    inputs@{ self
+    , nixpkgs
+    , flake-parts
+    , pre-commit-hooks
+    , ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       flake = {
         githubActions = inputs.nix-github-actions.lib.mkGithubMatrix {
-          checks = nixpkgs.lib.getAttrs [ "x86_64-linux" "x86_64-darwin" ] self.packages;
+          checks = nixpkgs.lib.getAttrs [
+            "aarch64-linux"
+            "x86_64-linux"
+            # "x86_64-darwin"
+            "aarch64-darwin"
+          ]
+            self.packages;
         };
         # githubActions = inputs.nix-github-actions.lib.mkGithubMatrix { checks = self.packages; };
         # Inidividual overlays.
@@ -16,8 +28,14 @@
           # package = final: prev: import ./overlays/package.nix final prev;
         };
       };
-      systems = [ "aarch64-linux" "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      perSystem = { system, config, ... }:
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+      perSystem =
+        { system, config, ... }:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -26,16 +44,18 @@
           };
           inherit (pkgs) lib;
           overlayAttrs = builtins.attrNames (import ./overlays pkgs pkgs);
-          skipDarwinPackages = system: n:
-            if lib.strings.hasSuffix "darwin" system then !(
-              lib.strings.hasPrefix "koff" n
-            )
-            else true;
+          skipDarwinPackages =
+            system: n:
+            if lib.strings.hasSuffix "darwin" system then !(lib.strings.hasPrefix "koff" n) else true;
         in
         {
           packages =
             let
-              drvAttrs = builtins.filter (n: lib.isDerivation pkgs.${n} && skipDarwinPackages system n) overlayAttrs;
+              drvAttrs = builtins.filter
+                (
+                  n: lib.isDerivation pkgs.${n} && skipDarwinPackages system n
+                )
+                overlayAttrs;
             in
             lib.listToAttrs (map (n: lib.nameValuePair n pkgs.${n}) drvAttrs);
           checks = {
@@ -64,4 +84,3 @@
   inputs.nix-github-actions.url = "github:nix-community/nix-github-actions";
   inputs.nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
 }
-

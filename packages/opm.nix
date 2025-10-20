@@ -1,4 +1,12 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{ lib
+, buildGoModule
+, fetchFromGitHub
+, git
+, gpgme
+, pkg-config
+, validatePkgConfig
+,
+}:
 
 with lib;
 rec {
@@ -6,6 +14,7 @@ rec {
     { version
     , sha256
     , vendorHash
+    ,
     }:
 
     buildGoModule rec {
@@ -14,7 +23,15 @@ rec {
       name = "${pname}-${version}";
       rev = "v${version}";
 
-      builtInputs = [ "git" ];
+      buildInputs = [
+        gpgme
+      ];
+      nativeBuildInputs = [
+        git
+        pkg-config
+        validatePkgConfig
+      ];
+      nativeInstallCheckInputs = [ versionCheckHook ];
 
       subPackages = [ "cmd/opm" ];
       ldflags =
@@ -51,50 +68,15 @@ rec {
       };
     };
 
-  opm_1_47 = makeOverridable opmGen {
-    version = "1.47.0";
-    sha256 = "sha256-EEOlNW6WCuCGp2r4aRzI8AYWwR1mCurCS2PZ9TisN8I=";
-    vendorHash = "sha256-y9ox3DJnuVeAsUOO1PiF9ptVblUt+MJLkvg2eB5W60w=";
+  opm_1_60 = makeOverridable opmGen {
+    version = "1.60.0";
+    sha256 = "sha256-ecXtpsW5T0dauE7cjW0RjWOoaQkIFIWLwwGuAuyP/Ok=";
+    vendorHash = "sha256-10JW3wM1bHqO9JDys6U6Wl3vKHa5gjG28PTLaVK1MGg=";
   };
-  opm_1_46 = makeOverridable opmGen {
-    version = "1.46.0";
-    sha256 = "sha256-Kf3QnRy4UvnLgA5p+pIPnGBY53BSFCS7ba1spUMekq4=";
-    vendorHash = "sha256-gQj0v6UVYwJfwELIrKP+xjQb5mDCxUjA/1qAPpsfQOg=";
+  opm_1_59 = makeOverridable opmGen {
+    version = "1.59.0";
+    sha256 = "sha256-04eEx5zkc4+NQjSDYxXMHSl8+Izy8TXAQyJ2+rMsK50=";
+    vendorHash = "sha256-Es+wDvrNE1D97AgArZuZqhnNUtyncRcbrhjbMN4FWhk=";
   };
-  opm_1_45 = makeOverridable opmGen {
-    version = "1.45.0";
-    sha256 = "sha256-fYjhg/ArgcfsZeKjO5VBgovs0kUoJzf0BgiW3QP62Uk=";
-    vendorHash = "sha256-0SOjxxJWlI38QNupWN6zIZF0ruqavmSV9e/k1UmbQvc=";
-  };
-  opm_1_44 = makeOverridable opmGen {
-    version = "1.44.0";
-    sha256 = "sha256-LneJaLm30h1LDnx6BSqCvAvaIL375oLRRJhJ3JgBdFc=";
-    vendorHash = "sha256-IzDPBu/EnMmJWe5TB4ww8dMhWB6O80OX7XXrAqkz6Vk=";
-  };
-  opm_1_43 = makeOverridable opmGen {
-    version = "1.43.1";
-    sha256 = "sha256-m2TfAAP078GPbV4jXtgHq8OKtg7Yw4GGLYgrPMExZQw=";
-    vendorHash = "sha256-bPbSbcS2a9PHjAxs03CWGOT83/jwKmkKP3Khon+zrMg=";
-  };
-  opm_1_42 = makeOverridable opmGen {
-    version = "1.42.0";
-    sha256 = "sha256-qzEEDmT0xHxRyTDZwD+BwevdYkfNZqeP8gQu3ML6i/M=";
-    vendorHash = "sha256-7zuD9qKbeFaVK707103pcatHdg7qdgl1fAIMmHHx+3M=";
-  };
-  opm_1_41 = makeOverridable opmGen {
-    version = "1.41.0";
-    sha256 = "sha256-50eoOhmKxWYhjf3hUPpyAOobj6vM9piObpSW5+DKZXM=";
-    vendorHash = "sha256-7nt/LSQXSntzUbfO4WVUB6bWNWWGUyUmyawm4vApM1w=";
-  };
-  opm_1_40 = makeOverridable opmGen {
-    version = "1.40.0";
-    sha256 = "sha256-+EmoWuWLGJ+JROb5MSREK25kxKPErZX+KTwCm34uj/0=";
-    vendorHash = "sha256-kst+Y6E0tvfBQxlx8IXdgAwIxwzRiQrNiNReGmdASqI=";
-  };
-  opm_1_39 = makeOverridable opmGen {
-    version = "1.39.0";
-    sha256 = "sha256-SnR22t9IDiRTB0xo8gTO9YprgMchp5+T8bGc0GdNfU4=";
-    vendorHash = "sha256-Of0ngmLRKXBcWBXgY1hzlQXj10ZcIV3BkbErTk3K3zw=";
-  };
-  opm = opm_1_47;
+  opm = opm_1_60;
 }

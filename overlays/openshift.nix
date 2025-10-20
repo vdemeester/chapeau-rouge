@@ -63,15 +63,8 @@ in
     ;
   # OPM
   inherit (super.callPackage ../packages/opm.nix { })
-    opm_1_47
-    opm_1_46
-    opm_1_45
-    opm_1_44
-    opm_1_43
-    opm_1_42
-    opm_1_41
-    opm_1_40
-    opm_1_39
+    opm_1_60
+    opm_1_59
     opm
     # master based build
     # opm-git

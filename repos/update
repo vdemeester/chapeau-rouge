@@ -2,32 +2,35 @@
 #! nix-shell -i bash -p curl nix coreutils xmlstarlet go
 set -euxo pipefail
 
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPTPATH="$(
+	cd "$(dirname "$0")"
+	pwd -P
+)"
 cd $SCRIPTPATH
 
 function update_github_repo() {
-    owner=$1
-    repo=$2
-    branch=$3
-    echo $repo $branch
+	owner=$1
+	repo=$2
+	branch=$3
+	echo $repo $branch
 
-    # Get relevant data (commit id and timestamp) for the latest commit
-    commit_data=$(curl "https://github.com/$owner/$repo/commits/$branch.atom" | xmlstarlet sel -N atom="http://www.w3.org/2005/Atom" -t -m /atom:feed/atom:entry -v "concat(atom:id,'/',atom:updated)" -n | head -n 1)
+	# Get relevant data (commit id and timestamp) for the latest commit
+	commit_data=$(curl "https://github.com/$owner/$repo/commits/$branch.atom" | xmlstarlet sel -N atom="http://www.w3.org/2005/Atom" -t -m /atom:feed/atom:entry -v "concat(atom:id,'/',atom:updated)" -n | head -n 1)
 
-    # Extract commit sha and build a version number based on date: YYYYMMDD.0
-    commit_sha=$(echo $commit_data | cut -d '/' -f 2)
-    version_number=$(echo $commit_data | cut -d '/' -f 3 | cut -d 'T' -f 1 | sed 's/-//g').0
+	# Extract commit sha and build a version number based on date: YYYYMMDD.0
+	commit_sha=$(echo $commit_data | cut -d '/' -f 2)
+	version_number=$(echo $commit_data | cut -d '/' -f 3 | cut -d 'T' -f 1 | sed 's/-//g').0
 
-    output_branch=$(echo $branch | sed s/"\/"/"_"/)
-    digest=$(nix-prefetch-url --unpack "https://github.com/$owner/$repo/archive/${commit_sha}.tar.gz")
-    echo "{\"type\": \"github\", \"owner\": \"${owner}\", \"repo\": \"${repo}\", \"rev\": \"${commit_sha}\", \"sha256\": \"${digest}\", \"version\": \"${version_number}\"}" > $repo-$output_branch.json
+	output_branch=$(echo $branch | sed s/"\/"/"_"/)
+	digest=$(nix-prefetch-url --unpack "https://github.com/$owner/$repo/archive/${commit_sha}.tar.gz")
+	echo "{\"type\": \"github\", \"owner\": \"${owner}\", \"repo\": \"${repo}\", \"rev\": \"${commit_sha}\", \"sha256\": \"${digest}\", \"version\": \"${version_number}\"}" >$repo-$output_branch.json
 }
 
 function update_openshift_mirror() {
-    name=$1
-    filename=$2
+	name=$1
+	filename=$2
 
-    go run . -version "4.14,4.15,4.16,4.17,4.18,4.19" -arch "aarch64,x86_64" -platform "darwin,linux" ${filename} > ${name}.json
+	go run . -version "4.14,4.15,4.16,4.17,4.18,4.19" -arch "aarch64,x86_64" -platform "darwin,linux" ${filename} >${name}.json
 }
 
 update_github_repo openshift oc main

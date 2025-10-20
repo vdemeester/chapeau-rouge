@@ -10,6 +10,49 @@ This repository provides the following overlays:
 - `openshift`: openshift tooling, like `oc`, `openshift-install`,
   `operator-sdk`, …
 
+<!-- PACKAGES_START -->
+## Packages
+
+| Package | Version | Platforms |
+|---|---|---|
+| `did` | `0.22` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `koff` | `1.0.1` | `aarch64-linux`, `x86_64-linux` |
+| `koff-git` | `20250105.0` | `aarch64-linux`, `x86_64-linux` |
+| `koff_1_0` | `1.0.1` | `aarch64-linux`, `x86_64-linux` |
+| `oc` | `4.19.17` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc-git` | `20251020.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc_4_14` | `4.14.57` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc_4_15` | `4.15.58` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc_4_16` | `4.16.50` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc_4_17` | `4.17.42` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc_4_18` | `4.18.26` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `oc_4_19` | `4.19.17` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `omc` | `3.12.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `omc-git` | `20251003.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `omc_3_10` | `3.10.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `omc_3_11` | `3.11.2` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `omc_3_12` | `3.12.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opc` | `1.19.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opc-git` | `20251016.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opc_1_18` | `1.18.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opc_1_19` | `1.19.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install` | `4.19.17` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install_4_14` | `4.14.57` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install_4_15` | `4.15.58` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install_4_16` | `4.16.50` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install_4_17` | `4.17.42` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install_4_18` | `4.18.26` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `openshift-install_4_19` | `4.19.17` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `operator-sdk` | `1.41.1` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `operator-sdk_1` | `1.41.1` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `operator-sdk_1_40` | `1.40.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `operator-sdk_1_41` | `1.41.1` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opm` | `1.60.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opm_1_59` | `1.59.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| `opm_1_60` | `1.60.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+
+<!-- PACKAGES_END -->
+
 ## Quickstart
 To get up and running quickly, add the following lines to your `/etc/nixos/configuration.nix`:
 

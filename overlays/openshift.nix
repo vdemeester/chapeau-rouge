@@ -79,11 +79,9 @@ in
   # omc
   inherit (super.callPackage ../packages/omc.nix { })
     omc
-    omc_3_2
-    omc_3_3
-    omc_3_4
-    omc_3_6
-    omc_3_7
+    omc_3_12
+    omc_3_11
+    omc_3_10
     omc-git
     ;
   # koff

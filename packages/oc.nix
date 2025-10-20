@@ -70,6 +70,8 @@ rec {
         mkdir -p $out/share/zsh/site-functions
         $out/bin/oc completion zsh > $out/share/zsh/site-functions/_oc
       '';
+
+      nativeInstallCheckInputs = [ versionCheckHook ];
     };
 
   oc = oc_4_19;

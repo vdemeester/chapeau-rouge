@@ -19,9 +19,9 @@ rec {
       getUrl =
         version:
         if (stdenv.isAarch64 && stdenv.isDarwin) then
-          "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${version}/openshift-client-mac-${version}.tar.gz"
+          "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-client-mac-arm64-${version}.tar.gz"
         else if (stdenv.isAarch64 && stdenv.isLinux) then
-          "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${version}/openshift-client-linux-${version}.tar.gz"
+          "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-client-linux-arm64-${version}.tar.gz"
         else if (stdenv.isx86_64 && stdenv.isDarwin) then
           "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-client-mac-${version}.tar.gz"
         else if (stdenv.isx86_64 && stdenv.isLinux) then

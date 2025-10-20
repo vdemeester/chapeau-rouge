@@ -1,4 +1,9 @@
-{ stdenv, lib, buildGoModule, fetchFromGitHub }:
+{ stdenv
+, lib
+, buildGoModule
+, fetchFromGitHub
+,
+}:
 
 with lib;
 rec {
@@ -6,6 +11,7 @@ rec {
     { version
     , sha256
     , rev ? "v${version}"
+    ,
     }:
     buildGoModule rec {
       pname = "opc";
@@ -37,23 +43,15 @@ rec {
       };
     };
 
-  opc_1_15 = makeOverridable opcGen {
-    version = "1.15.0";
-    sha256 = "sha256-u3nzYyinGPp1rOQX7Ck5Husa6cBKsSXmzoGsSTOCVD8=";
+  opc_1_19 = makeOverridable opcGen {
+    version = "1.19.0";
+    sha256 = "sha256-E0uhX9hfPJkXgLmruYpg1Zj4LcHR9QS0mGE7WaQaPo4=";
   };
-  opc_1_14 = makeOverridable opcGen {
-    version = "1.14.3";
-    sha256 = "sha256-c24TCLlnrRlPxBBO4fFpkz2+ITneJXaXjedLYYrYy2g=";
+  opc_1_18 = makeOverridable opcGen {
+    version = "1.18.0";
+    sha256 = "sha256-9/qlrFJw6Q4jjlvTr4tFaKiC9ckubM59eV27MQnbhcQ=";
   };
-  opc_1_13 = makeOverridable opcGen {
-    version = "1.13.0";
-    sha256 = "sha256-yeJV6hSs6T19xThqDibbbuWvpz1uU8/lpDE1mMZmVHA=";
-  };
-  opc_1_12 = makeOverridable opcGen {
-    version = "1.12.1";
-    sha256 = "sha256-irOv4GuFl+LQw3p47szpP5+B0Mfo5sTuA6ynRN6FwKI=";
-  };
-  opc = opc_1_15;
+  opc = opc_1_19;
 
   opc-git =
     let

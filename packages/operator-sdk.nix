@@ -1,4 +1,14 @@
-{ stdenv, lib, buildGoModule, fetchFromGitHub, sqlite }:
+{ stdenv
+, lib
+, buildGoModule
+, fetchFromGitHub
+, git
+, sqlite
+, gpgme
+, pkg-config
+, validatePkgConfig
+,
+}:
 
 with lib;
 rec {
@@ -7,6 +17,7 @@ rec {
     , k8sVersion
     , sha256
     , vendorHash
+    ,
     }:
 
     buildGoModule rec {
@@ -15,7 +26,16 @@ rec {
       name = "${pname}-${version}";
       rev = "v${version}";
 
-      builtInputs = [ "git" sqlite ];
+      buildInputs = [
+        sqlite
+        gpgme
+      ];
+      nativeBuildInputs = [
+        git
+        pkg-config
+        validatePkgConfig
+      ];
+      nativeInstallCheckInputs = [ versionCheckHook ];
 
       subPackages = [ "cmd/operator-sdk" ];
       ldflags =
@@ -53,48 +73,18 @@ rec {
       };
     };
 
-  operator-sdk_1_37 = makeOverridable operatorSdkGen {
-    version = "1.37.0";
-    k8sVersion = "1.29";
-    sha256 = "sha256-ANG9KpyEO+fpjelYU+HNTkbg2S0vFNyPzPRFjcLoLOI=";
-    vendorHash = "sha256-pr3WTUZetps/Gof8lttN2beomiobVPCgX0j9V77g5sI=";
+  operator-sdk_1_41 = makeOverridable operatorSdkGen {
+    version = "1.41.1";
+    k8sVersion = "1.32";
+    sha256 = "sha256-J9vdLXJ5qw+Gz5I03l0CDsYw1AwCOSjYX5jP9Qo/UU8=";
+    vendorHash = "sha256-O2PVS3mwqz0n+TG9SIHzlbm19JEXTWHkoIzn/snloss=";
   };
-  operator-sdk_1_36 = makeOverridable operatorSdkGen {
-    version = "1.36.1";
-    k8sVersion = "1.29";
-    sha256 = "sha256-ZUWbM2g3l5uesM9QDlRqRo9gFipgaS8YyEbnIyRaMS0=";
-    vendorHash = "sha256-FEoAV3Fhmjhkc7sYfE1QQFmhOZbXps57mBD0fyvQq00=";
+  operator-sdk_1_40 = makeOverridable operatorSdkGen {
+    version = "1.40.0";
+    k8sVersion = "1.32";
+    sha256 = "sha256-7vTVoijlVSw7rLNqvz3EH2KxsWkOthhhhpO6A7f8WUE=";
+    vendorHash = "sha256-4G6OpJgcTLGS+gzBdUjF5+uDCc5d4Z+MEkFFD0AymmU=";
   };
-  operator-sdk_1_34 = makeOverridable operatorSdkGen {
-    version = "1.34.2";
-    k8sVersion = "1.28";
-    sha256 = "sha256-vVa1ljPRSHSo7bVqPkRt/jbuSlzLmnVaLnyreskwOrM=";
-    vendorHash = "sha256-YspUrnSS6d8Ta8dmUjx9A5D/V5Bqm08DQJrRBaIGyQg=";
-  };
-  operator-sdk_1_33 = makeOverridable operatorSdkGen {
-    version = "1.33.0";
-    k8sVersion = "1.27";
-    sha256 = "sha256-Q8G/B9apvjvW45WSPXHSn6e5mZSsahNl6ymfguOeSa0=";
-    vendorHash = "sha256-WoebO6RDwDyflXwHTJxRLAyNpmic2gahIaLO/i6Q1cc=";
-  };
-  operator-sdk_1_32 = makeOverridable operatorSdkGen {
-    version = "1.32.0";
-    k8sVersion = "1.26";
-    sha256 = "sha256-sWnHx9IKwr6um9YlrF2ULQ7HZo0TNC4MpWHTVpmWqFs=";
-    vendorHash = "sha256-Gl0LUlMLeku2B5DkWpzeoXfMLb/OnOx4Urw4RF4cuTQ=";
-  };
-  operator-sdk_1_31 = makeOverridable operatorSdkGen {
-    version = "1.31.0";
-    k8sVersion = "1.26";
-    sha256 = "sha256-v/7nqZg/lwiK2k92kQWSZCSjEZhTAQHCGBcTfxQX2r0=";
-    vendorHash = "sha256-geKWTsDLx5drTleTnneg2JIbe5sMS5JUQxTX9Bcm+IQ=";
-  };
-  operator-sdk_1_30 = makeOverridable operatorSdkGen {
-    version = "1.30.0";
-    k8sVersion = "1.26";
-    sha256 = "sha256-mDjBu25hOhm3FrUDsFq1rjBn58K91Bao8gqN2heZ9ps=";
-    vendorHash = "sha256-QfTWjSsWpbbGgKrv4U2E6jA6eAT4wnj0ixpUqDxtsY8=";
-  };
-  operator-sdk_1 = operator-sdk_1_37;
+  operator-sdk_1 = operator-sdk_1_41;
   operator-sdk = operator-sdk_1;
 }

@@ -1,6 +1,8 @@
 self: super:
 let
-  mkGitOc = namePrefix: jsonFile: { ... }@args:
+  mkGitOc =
+    namePrefix: jsonFile:
+    { ... }@args:
     let
       repoMeta = super.lib.importJSON jsonFile;
       fetcher =
@@ -9,26 +11,27 @@ let
         else
           throw "Unknown repository type ${repoMeta.type}!";
     in
-    builtins.foldl'
-      (drv: fn: fn drv)
-      super.openshift
-      ([
-        (
-          drv: drv.overrideAttrs (
-            old: {
-              name = "${namePrefix}-${repoMeta.version}";
-              inherit (repoMeta) version rev;
-              src = fetcher (builtins.removeAttrs repoMeta [ "type" "version" ]);
-              ldflags = [
-                "-s"
-                "-w"
-                "-X github.com/openshift/oc/pkg/version.commitFromGit=${repoMeta.rev}"
-                "-X github.com/openshift/oc/pkg/version.versionFromGit=v${repoMeta.version}"
-              ];
-            }
-          )
-        )
-      ]);
+    builtins.foldl' (drv: fn: fn drv) super.openshift ([
+      (
+        drv:
+        drv.overrideAttrs (old: {
+          name = "${namePrefix}-${repoMeta.version}";
+          inherit (repoMeta) version rev;
+          src = fetcher (
+            builtins.removeAttrs repoMeta [
+              "type"
+              "version"
+            ]
+          );
+          ldflags = [
+            "-s"
+            "-w"
+            "-X github.com/openshift/oc/pkg/version.commitFromGit=${repoMeta.rev}"
+            "-X github.com/openshift/oc/pkg/version.versionFromGit=v${repoMeta.version}"
+          ];
+        })
+      )
+    ]);
 in
 {
   inherit (super.callPackage ../packages/oc.nix { })

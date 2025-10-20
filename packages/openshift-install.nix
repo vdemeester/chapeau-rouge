@@ -70,6 +70,7 @@ rec {
         #mkdir -p $out/share/zsh/site-functions
         #$out/bin/openshift-install completion zsh > $out/share/zsh/site-functions/_openshift-install
       '';
+      nativeInstallCheckInputs = [ versionCheckHook ];
 
       meta = {
         description = "Install an OpenShift cluster";

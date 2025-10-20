@@ -52,6 +52,7 @@ rec {
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/omc completion zsh > $out/share/zsh/site-functions/omc
       '';
+      nativeInstallCheckInputs = [ versionCheckHook ];
 
       meta = {
         description = "OpenShift Must-Gather Client";

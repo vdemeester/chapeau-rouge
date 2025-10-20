@@ -51,6 +51,7 @@ rec {
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/koff completion zsh > $out/share/zsh/site-functions/koff
       '';
+      nativeInstallCheckInputs = [ versionCheckHook ];
 
       meta = {
         description = "OpenShift Must-Gather Client";

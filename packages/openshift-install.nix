@@ -1,4 +1,8 @@
-{ stdenv, lib, fetchurl }:
+{ stdenv
+, lib
+, fetchurl
+,
+}:
 
 with lib;
 let
@@ -7,22 +11,35 @@ in
 rec {
   openshiftInstallGen =
     { versionData
+    ,
     }:
 
     let
       # https://mirror.openshift.com/pub/openshift-v4/arm64/clients/ocp/4.9.49/openshift-client-linux.tar.gz
-      getUrl = version:
-        if (stdenv.isAarch64 && stdenv.isDarwin) then "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${version}/openshift-install-mac-${version}.tar.gz"
-        else if (stdenv.isAarch64 && stdenv.isLinux) then "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${version}/openshift-install-linux-${version}.tar.gz"
-        else if (stdenv.isx86_64 && stdenv.isDarwin) then "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-mac-${version}.tar.gz"
-        else if (stdenv.isx86_64 && stdenv.isLinux) then "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-linux-${version}.tar.gz"
-        else throw "unsupported platform";
-      sha256 = data:
-        if (stdenv.isAarch64 && stdenv.isDarwin) then data.darwin.aarch64
-        else if (stdenv.isAarch64 && stdenv.isLinux) then data.linux.aarch64
-        else if (stdenv.isx86_64 && stdenv.isDarwin) then data.darwin.x86_64
-        else if (stdenv.isx86_64 && stdenv.isLinux) then data.linux.x86_64
-        else throw "unsupported platform";
+      getUrl =
+        version:
+        if (stdenv.isAarch64 && stdenv.isDarwin) then
+          "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${version}/openshift-install-mac-${version}.tar.gz"
+        else if (stdenv.isAarch64 && stdenv.isLinux) then
+          "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${version}/openshift-install-linux-${version}.tar.gz"
+        else if (stdenv.isx86_64 && stdenv.isDarwin) then
+          "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-mac-${version}.tar.gz"
+        else if (stdenv.isx86_64 && stdenv.isLinux) then
+          "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-linux-${version}.tar.gz"
+        else
+          throw "unsupported platform";
+      sha256 =
+        data:
+        if (stdenv.isAarch64 && stdenv.isDarwin) then
+          data.darwin.aarch64
+        else if (stdenv.isAarch64 && stdenv.isLinux) then
+          data.linux.aarch64
+        else if (stdenv.isx86_64 && stdenv.isDarwin) then
+          data.darwin.x86_64
+        else if (stdenv.isx86_64 && stdenv.isLinux) then
+          data.linux.x86_64
+        else
+          throw "unsupported platform";
     in
     stdenv.mkDerivation rec {
       pname = "openshift-install";
@@ -61,7 +78,13 @@ rec {
       };
     };
 
-  openshift-install = openshift-install_4_17;
+  openshift-install = openshift-install_4_19;
+  openshift-install_4_19 = makeOverridable openshiftInstallGen {
+    versionData = versionsMeta."4.19";
+  };
+  openshift-install_4_18 = makeOverridable openshiftInstallGen {
+    versionData = versionsMeta."4.18";
+  };
   openshift-install_4_17 = makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.17";
   };
@@ -73,8 +96,5 @@ rec {
   };
   openshift-install_4_14 = makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.14";
-  };
-  openshift-install_4_13 = makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.13";
   };
 }

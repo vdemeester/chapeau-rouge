@@ -1,4 +1,9 @@
-{ stdenv, lib, buildGoModule, fetchFromGitHub }:
+{ stdenv
+, lib
+, buildGoModule
+, fetchFromGitHub
+,
+}:
 
 with lib;
 rec {
@@ -6,6 +11,7 @@ rec {
     { version
     , sha256
     , rev ? "v${version}"
+    ,
     }:
     buildGoModule rec {
       pname = "koff";
@@ -53,15 +59,11 @@ rec {
       };
     };
 
-  koff_0_11 = makeOverridable koffGen {
-    version = "0.11.0";
-    sha256 = "sha256-8sS02JSt98/Ixe3V2IX+5bHA2KP4grBSn97AeyJizjI=";
+  koff_1_0 = makeOverridable koffGen {
+    version = "1.0.1";
+    sha256 = "sha256-qMZcyXqQ+zEEytnQbTF37I0+sZYJRNTXyL8rgDiFI1U=";
   };
-  koff_0_10 = makeOverridable koffGen {
-    version = "0.10.0";
-    sha256 = "sha256-QleDch0c95GUgo9fnNdW7Gt+BmggCaYdgkmiOZFO1/E=";
-  };
-  koff = koff_0_11;
+  koff = koff_1_0;
 
   koff-git =
     let

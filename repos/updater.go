@@ -71,8 +71,12 @@ func fetchVersion(filename, version string, archs, platforms []string) (map[stri
 		}
 		pm := map[string]string{}
 		for _, arch := range archs {
-			url := fmt.Sprintf("https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/%s/%s-%s-%s.tar.gz",
-				version, filename, realplatform, version)
+			ocpArch := ""
+			if arch == "aarch64" {
+				ocpArch = "-arm64"
+			}
+			url := fmt.Sprintf("https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/%s/%s-%s%s-%s.tar.gz",
+				version, filename, realplatform, ocpArch, version)
 			args := []string{"--type", "sha256", url}
 			fmt.Fprintf(os.Stderr, "Fetching %s...\n", url)
 			out, err := exec.Command("nix-prefetch-url", args...).Output()

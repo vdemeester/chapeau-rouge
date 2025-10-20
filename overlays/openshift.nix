@@ -43,7 +43,7 @@ in
     oc_4_19
     oc
     ;
-  oc-git = mkGitOc "oc-git" ../repos/oc-master.json { };
+  oc-git = mkGitOc "oc-git" ../repos/oc-main.json { };
   inherit (super.callPackage ../packages/openshift-install.nix { })
     openshift-install_4_14
     openshift-install_4_15

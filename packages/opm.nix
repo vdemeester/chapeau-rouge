@@ -68,6 +68,11 @@ rec {
       };
     };
 
+  opm_1_61 = makeOverridable opmGen {
+    version = "1.61.0";
+    sha256 = "sha256-EWxER6zPfz83esOo3As5cGc4GXbsA87N+1L+ov+hs2M=";
+    vendorHash = "sha256-uE5flRoIpBg26AqgqgOKsETbsZa8btyerQFL1KUjfDA=";
+  };
   opm_1_60 = makeOverridable opmGen {
     version = "1.60.0";
     sha256 = "sha256-ecXtpsW5T0dauE7cjW0RjWOoaQkIFIWLwwGuAuyP/Ok=";
@@ -78,5 +83,5 @@ rec {
     sha256 = "sha256-04eEx5zkc4+NQjSDYxXMHSl8+Izy8TXAQyJ2+rMsK50=";
     vendorHash = "sha256-Es+wDvrNE1D97AgArZuZqhnNUtyncRcbrhjbMN4FWhk=";
   };
-  opm = opm_1_60;
+  opm = opm_1_61;
 }

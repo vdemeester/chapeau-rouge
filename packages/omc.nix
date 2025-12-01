@@ -62,8 +62,8 @@ rec {
     };
 
   omc_3_12 = makeOverridable omcGen {
-    version = "3.12.0";
-    sha256 = "sha256-C737p7yCSkdKxBiw3fq0a9ZZRr6myLAx20cJnE7HZTU=";
+    version = "3.12.2";
+    sha256 = "sha256-+kJXYaXd026Yruq0zhBoszWG0xgOhAmby+c5Wtz98Q8=";
   };
   omc_3_11 = makeOverridable omcGen {
     version = "3.11.2";

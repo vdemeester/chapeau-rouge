@@ -44,6 +44,7 @@ in
     oc_4_17
     oc_4_18
     oc_4_19
+    oc_4_20
     oc
     ;
   oc-git = mkGitOc "oc-git" ../repos/oc-main.json { };
@@ -54,6 +55,7 @@ in
     openshift-install_4_17
     openshift-install_4_18
     openshift-install_4_19
+    openshift-install_4_20
     openshift-install
     # master based build
     # openshift-install-git

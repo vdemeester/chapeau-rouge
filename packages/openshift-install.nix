@@ -79,7 +79,10 @@ rec {
       };
     };
 
-  openshift-install = openshift-install_4_19;
+  openshift-install = openshift-install_4_20;
+  openshift-install_4_20 = makeOverridable openshiftInstallGen {
+    versionData = versionsMeta."4.20";
+  };
   openshift-install_4_19 = makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.19";
   };

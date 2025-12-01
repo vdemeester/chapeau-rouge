@@ -74,7 +74,10 @@ rec {
       nativeInstallCheckInputs = [ versionCheckHook ];
     };
 
-  oc = oc_4_19;
+  oc = oc_4_20;
+  oc_4_20 = makeOverridable ocGen {
+    versionData = versionsMeta."4.20";
+  };
   oc_4_19 = makeOverridable ocGen {
     versionData = versionsMeta."4.19";
   };

@@ -14,8 +14,8 @@ rec {
     ,
     }:
     buildGoModule rec {
+      inherit version;
       pname = "koff";
-      name = "${pname}-${version}";
 
       subPackages = [ "." ];
       ldflags =
@@ -40,16 +40,14 @@ rec {
       preBuild = ''
         export HOME=$(pwd)
       '';
-      preInstall = ''
-        pwd
-        ls -la .
-      '';
       postInstall = ''
+        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/koff completion bash > $out/share/bash-completion/completions/koff
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/koff completion zsh > $out/share/zsh/site-functions/koff
+        runHook postInstall
       '';
       nativeInstallCheckInputs = [ versionCheckHook ];
 

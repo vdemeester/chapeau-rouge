@@ -18,9 +18,8 @@ rec {
     }:
 
     buildGoModule rec {
-      inherit vendorHash;
+      inherit version vendorHash;
       pname = "opm";
-      name = "${pname}-${version}";
       rev = "v${version}";
 
       buildInputs = [
@@ -52,17 +51,17 @@ rec {
       };
 
       postInstall = ''
+        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/opm completion bash > $out/share/bash-completion/completions/opm
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/opm completion zsh > $out/share/zsh/site-functions/_opm
+        runHook postInstall
       '';
 
       meta = {
-        description = "Operator Registry runs in a Kubernetes or OpenShift cluster to provide operator catalog data to Operator Lifecycle Manager.
-
-";
+        description = "Operator Registry runs in a Kubernetes or OpenShift cluster to provide operator catalog data to Operator Lifecycle Manager";
         homepage = "https://github.com/operator-framework/operator-registry";
         license = lib.licenses.asl20;
       };

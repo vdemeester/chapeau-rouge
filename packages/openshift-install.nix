@@ -43,24 +43,26 @@ rec {
     in
     stdenv.mkDerivation rec {
       pname = "openshift-install";
-      name = "${pname}-${versionData.version}";
+      version = versionData.version;
 
       src = fetchurl {
         url = getUrl versionData.version;
         sha256 = "${sha256 versionData}";
       };
 
-      phases = " unpackPhase installPhase fixupPhase ";
+      dontBuild = true;
+      dontConfigure = true;
 
       unpackPhase = ''
         runHook preUnpack
-        mkdir ${name}
-        tar -C ${name} -xzf $src
+        mkdir openshift-install-${version}
+        tar -C openshift-install-${version} -xzf $src
+        runHook postUnpack
       '';
 
       installPhase = ''
         runHook preInstall
-        install -D ${name}/openshift-install $out/bin/openshift-install
+        install -D openshift-install-${version}/openshift-install $out/bin/openshift-install
         patchelf \
           --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
           $out/bin/openshift-install || true # in case it is dynamically linked
@@ -69,6 +71,7 @@ rec {
         $out/bin/openshift-install completion bash > $out/share/bash-completion/completions/openshift-install
         #mkdir -p $out/share/zsh/site-functions
         #$out/bin/openshift-install completion zsh > $out/share/zsh/site-functions/_openshift-install
+        runHook postInstall
       '';
       nativeInstallCheckInputs = [ versionCheckHook ];
 

@@ -43,24 +43,26 @@ rec {
     in
     stdenv.mkDerivation rec {
       pname = "oc";
-      name = "${pname}-${versionData.version}";
+      version = versionData.version;
 
       src = fetchurl {
         url = getUrl versionData.version;
         sha256 = "${sha256 versionData}";
       };
 
-      phases = " unpackPhase installPhase fixupPhase ";
+      dontBuild = true;
+      dontConfigure = true;
 
       unpackPhase = ''
         runHook preUnpack
-        mkdir ${name}
-        tar -C ${name} -xzf $src
+        mkdir oc-${version}
+        tar -C oc-${version} -xzf $src
+        runHook postUnpack
       '';
 
       installPhase = ''
         runHook preInstall
-        install -D ${name}/oc $out/bin/oc
+        install -D oc-${version}/oc $out/bin/oc
         patchelf \
           --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
           $out/bin/oc || true # in case it is dynamically linked
@@ -69,6 +71,7 @@ rec {
         $out/bin/oc completion bash > $out/share/bash-completion/completions/oc
         mkdir -p $out/share/zsh/site-functions
         $out/bin/oc completion zsh > $out/share/zsh/site-functions/_oc
+        runHook postInstall
       '';
 
       nativeInstallCheckInputs = [ versionCheckHook ];

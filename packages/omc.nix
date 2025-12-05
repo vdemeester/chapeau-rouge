@@ -14,8 +14,8 @@ rec {
     ,
     }:
     buildGoModule rec {
+      inherit version;
       pname = "omc";
-      name = "${pname}-${version}";
 
       #subPackages = [ "." ];
       ldflags =
@@ -41,16 +41,14 @@ rec {
       preBuild = ''
         export HOME=$(pwd)
       '';
-      preInstall = ''
-        pwd
-        ls -la .
-      '';
       postInstall = ''
+        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/omc completion bash > $out/share/bash-completion/completions/omc
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/omc completion zsh > $out/share/zsh/site-functions/omc
+        runHook postInstall
       '';
       nativeInstallCheckInputs = [ versionCheckHook ];
 

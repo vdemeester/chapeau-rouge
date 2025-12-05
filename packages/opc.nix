@@ -14,8 +14,8 @@ rec {
     ,
     }:
     buildGoModule rec {
+      inherit version;
       pname = "opc";
-      name = "${pname}-${version}";
 
       src = fetchFromGitHub {
         inherit rev;
@@ -26,14 +26,18 @@ rec {
       vendorHash = null;
 
       patchPhase = ''
+        runHook prePatch
         sed -i 's/devel/${version}/' ./pkg/version.json
+        runHook postPatch
       '';
       postInstall = ''
+        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/opc completion bash > $out/share/bash-completion/completions/opc
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/opc completion zsh > $out/share/zsh/site-functions/opc
+        runHook postInstall
       '';
 
       meta = {

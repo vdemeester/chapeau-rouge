@@ -21,9 +21,8 @@ rec {
     }:
 
     buildGoModule rec {
-      inherit vendorHash;
+      inherit version vendorHash;
       pname = "operator-sdk";
-      name = "${pname}-${version}";
       rev = "v${version}";
 
       buildInputs = [
@@ -56,14 +55,15 @@ rec {
         repo = "operator-sdk";
         sha256 = "${sha256}";
       };
-      modSha256 = "${vendorHash}";
 
       postInstall = ''
+        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/operator-sdk completion bash > $out/share/bash-completion/completions/operator-sdk
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/operator-sdk completion zsh > $out/share/zsh/site-functions/_operator-sdk
+        runHook postInstall
       '';
 
       meta = {

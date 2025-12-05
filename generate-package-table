@@ -28,6 +28,7 @@ generate_table() {
   declare -A all_packages
   declare -A package_versions
   declare -A package_platforms
+  declare -A package_homepages
 
   for system in "${SYSTEMS[@]}"; do
     # Get all package names for this system
@@ -40,10 +41,13 @@ generate_table() {
       # Mark this package as existing
       all_packages["$pkg"]=1
 
-      # Get version if we haven't already
+      # Get version and homepage if we haven't already
       if [ -z "${package_versions[$pkg]:-}" ]; then
         version=$(nix eval ".#${pkg}.version" --raw 2>/dev/null || echo "unknown")
         package_versions["$pkg"]="$version"
+
+        homepage=$(nix eval ".#${pkg}.meta.homepage" --raw 2>/dev/null || echo "")
+        package_homepages["$pkg"]="$homepage"
       fi
 
       # Add this system to the package's platform list
@@ -59,11 +63,19 @@ generate_table() {
   for pkg in $(echo "${!all_packages[@]}" | tr ' ' '\n' | sort); do
     version="${package_versions[$pkg]}"
     platforms="${package_platforms[$pkg]}"
+    homepage="${package_homepages[$pkg]}"
 
     # Convert comma-separated list to backtick-wrapped list
     platforms=$(echo "$platforms" | sed 's/, /`, `/g' | sed 's/^/`/' | sed 's/$/`/')
 
-    echo "| \`${pkg}\` | \`${version}\` | ${platforms} |"
+    # Format package name as link if homepage exists
+    if [ -n "$homepage" ]; then
+      pkg_link="[\`${pkg}\`](${homepage})"
+    else
+      pkg_link="\`${pkg}\`"
+    fi
+
+    echo "| ${pkg_link} | \`${version}\` | ${platforms} |"
   done
 }
 

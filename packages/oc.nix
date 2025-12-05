@@ -1,12 +1,12 @@
 { stdenv
 , lib
 , fetchurl
+, versionCheckHook
 ,
 }:
 
-with lib;
 let
-  versionsMeta = importJSON ../repos/oc.json;
+  versionsMeta = lib.importJSON ../repos/oc.json;
 in
 rec {
   ocGen =
@@ -41,7 +41,7 @@ rec {
         else
           throw "unsupported platform";
     in
-    stdenv.mkDerivation rec {
+    stdenv.mkDerivation (finalAttrs: {
       pname = "oc";
       version = versionData.version;
 
@@ -55,14 +55,14 @@ rec {
 
       unpackPhase = ''
         runHook preUnpack
-        mkdir oc-${version}
-        tar -C oc-${version} -xzf $src
+        mkdir oc-${finalAttrs.version}
+        tar -C oc-${finalAttrs.version} -xzf $src
         runHook postUnpack
       '';
 
       installPhase = ''
         runHook preInstall
-        install -D oc-${version}/oc $out/bin/oc
+        install -D oc-${finalAttrs.version}/oc $out/bin/oc
         patchelf \
           --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
           $out/bin/oc || true # in case it is dynamically linked
@@ -83,28 +83,28 @@ rec {
         platforms = lib.platforms.linux ++ lib.platforms.darwin;
         mainProgram = "oc";
       };
-    };
+    });
 
   oc = oc_4_20;
-  oc_4_20 = makeOverridable ocGen {
+  oc_4_20 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.20";
   };
-  oc_4_19 = makeOverridable ocGen {
+  oc_4_19 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.19";
   };
-  oc_4_18 = makeOverridable ocGen {
+  oc_4_18 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.18";
   };
-  oc_4_17 = makeOverridable ocGen {
+  oc_4_17 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.17";
   };
-  oc_4_16 = makeOverridable ocGen {
+  oc_4_16 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.16";
   };
-  oc_4_15 = makeOverridable ocGen {
+  oc_4_15 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.15";
   };
-  oc_4_14 = makeOverridable ocGen {
+  oc_4_14 = lib.makeOverridable ocGen {
     versionData = versionsMeta."4.14";
   };
 }

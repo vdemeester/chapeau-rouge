@@ -2,10 +2,11 @@
 , lib
 , buildGoModule
 , fetchFromGitHub
+, installShellFiles
+, versionCheckHook
 ,
 }:
 
-with lib;
 rec {
   koffGen =
     { version
@@ -13,9 +14,9 @@ rec {
     , rev ? "v${version}"
     ,
     }:
-    buildGoModule rec {
-      inherit version;
+    buildGoModule (finalAttrs: {
       pname = "koff";
+      inherit version;
 
       subPackages = [ "." ];
       ldflags =
@@ -25,7 +26,7 @@ rec {
         [
           "-s"
           "-w"
-          "-X ${t}.KoffVersionTag=${version}"
+          "-X ${t}.KoffVersionTag=${finalAttrs.version}"
         ];
 
       src = fetchFromGitHub {
@@ -36,18 +37,18 @@ rec {
       };
       vendorHash = null;
 
+      nativeBuildInputs = [ installShellFiles ];
+      nativeInstallCheckInputs = [ versionCheckHook ];
+
       doCheck = false;
       preBuild = ''
         export HOME=$(pwd)
       '';
       postInstall = ''
-        # completions
-        mkdir -p $out/share/bash-completion/completions/
-        $out/bin/koff completion bash > $out/share/bash-completion/completions/koff
-        mkdir -p $out/share/zsh/site-functions/
-        $out/bin/koff completion zsh > $out/share/zsh/site-functions/koff
+        installShellCompletion --cmd koff \
+          --bash <($out/bin/koff completion bash) \
+          --zsh <($out/bin/koff completion zsh)
       '';
-      nativeInstallCheckInputs = [ versionCheckHook ];
 
       meta = {
         description = "OpenShift Must-Gather Client";
@@ -56,9 +57,9 @@ rec {
         platforms = lib.platforms.unix;
         mainProgram = "koff";
       };
-    };
+    });
 
-  koff_1_0 = makeOverridable koffGen {
+  koff_1_0 = lib.makeOverridable koffGen {
     version = "1.0.1";
     sha256 = "sha256-qMZcyXqQ+zEEytnQbTF37I0+sZYJRNTXyL8rgDiFI1U=";
   };
@@ -66,9 +67,9 @@ rec {
 
   koff-git =
     let
-      repoMeta = importJSON ../repos/koff-main.json;
+      repoMeta = lib.importJSON ../repos/koff-main.json;
     in
-    makeOverridable koffGen {
+    lib.makeOverridable koffGen {
       version = repoMeta.version;
       rev = repoMeta.rev;
       sha256 = repoMeta.sha256;

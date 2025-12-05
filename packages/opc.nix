@@ -2,10 +2,11 @@
 , lib
 , buildGoModule
 , fetchFromGitHub
+, installShellFiles
+, versionCheckHook
 ,
 }:
 
-with lib;
 rec {
   opcGen =
     { version
@@ -13,9 +14,9 @@ rec {
     , rev ? "v${version}"
     ,
     }:
-    buildGoModule rec {
-      inherit version;
+    buildGoModule (finalAttrs: {
       pname = "opc";
+      inherit version;
 
       src = fetchFromGitHub {
         inherit rev;
@@ -25,17 +26,17 @@ rec {
       };
       vendorHash = null;
 
+      nativeBuildInputs = [ installShellFiles ];
+
       patchPhase = ''
         runHook prePatch
         sed -i 's/devel/${version}/' ./pkg/version.json
         runHook postPatch
       '';
       postInstall = ''
-        # completions
-        mkdir -p $out/share/bash-completion/completions/
-        $out/bin/opc completion bash > $out/share/bash-completion/completions/opc
-        mkdir -p $out/share/zsh/site-functions/
-        $out/bin/opc completion zsh > $out/share/zsh/site-functions/opc
+        installShellCompletion --cmd opc \
+          --bash <($out/bin/opc completion bash) \
+          --zsh <($out/bin/opc completion zsh)
       '';
 
       meta = {
@@ -45,13 +46,13 @@ rec {
         platforms = lib.platforms.unix;
         mainProgram = "opc";
       };
-    };
+    });
 
-  opc_1_19 = makeOverridable opcGen {
+  opc_1_19 = lib.makeOverridable opcGen {
     version = "1.19.0";
     sha256 = "sha256-E0uhX9hfPJkXgLmruYpg1Zj4LcHR9QS0mGE7WaQaPo4=";
   };
-  opc_1_18 = makeOverridable opcGen {
+  opc_1_18 = lib.makeOverridable opcGen {
     version = "1.18.0";
     sha256 = "sha256-9/qlrFJw6Q4jjlvTr4tFaKiC9ckubM59eV27MQnbhcQ=";
   };
@@ -59,9 +60,9 @@ rec {
 
   opc-git =
     let
-      repoMeta = importJSON ../repos/opc-main.json;
+      repoMeta = lib.importJSON ../repos/opc-main.json;
     in
-    makeOverridable opcGen {
+    lib.makeOverridable opcGen {
       version = repoMeta.version;
       rev = repoMeta.rev;
       sha256 = repoMeta.sha256;

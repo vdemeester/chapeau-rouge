@@ -2,10 +2,11 @@
 , lib
 , buildGoModule
 , fetchFromGitHub
+, installShellFiles
+, versionCheckHook
 ,
 }:
 
-with lib;
 rec {
   omcGen =
     { version
@@ -13,9 +14,9 @@ rec {
     , rev ? "v${version}"
     ,
     }:
-    buildGoModule rec {
-      inherit version;
+    buildGoModule (finalAttrs: {
       pname = "omc";
+      inherit version;
 
       #subPackages = [ "." ];
       ldflags =
@@ -25,7 +26,7 @@ rec {
         [
           "-s"
           "-w"
-          "-X ${t}.OMCVersionTag=${version}"
+          "-X ${t}.OMCVersionTag=${finalAttrs.version}"
           # -X github.com/gmeghnag/omc/vars.OMCVersionHash=${HASH}"
         ];
 
@@ -37,18 +38,18 @@ rec {
       };
       vendorHash = null;
 
+      nativeBuildInputs = [ installShellFiles ];
+      nativeInstallCheckInputs = [ versionCheckHook ];
+
       doCheck = false;
       preBuild = ''
         export HOME=$(pwd)
       '';
       postInstall = ''
-        # completions
-        mkdir -p $out/share/bash-completion/completions/
-        $out/bin/omc completion bash > $out/share/bash-completion/completions/omc
-        mkdir -p $out/share/zsh/site-functions/
-        $out/bin/omc completion zsh > $out/share/zsh/site-functions/omc
+        installShellCompletion --cmd omc \
+          --bash <($out/bin/omc completion bash) \
+          --zsh <($out/bin/omc completion zsh)
       '';
-      nativeInstallCheckInputs = [ versionCheckHook ];
 
       meta = {
         description = "OpenShift Must-Gather Client";
@@ -57,17 +58,17 @@ rec {
         platforms = lib.platforms.unix;
         mainProgram = "omc";
       };
-    };
+    });
 
-  omc_3_12 = makeOverridable omcGen {
+  omc_3_12 = lib.makeOverridable omcGen {
     version = "3.12.2";
     sha256 = "sha256-+kJXYaXd026Yruq0zhBoszWG0xgOhAmby+c5Wtz98Q8=";
   };
-  omc_3_11 = makeOverridable omcGen {
+  omc_3_11 = lib.makeOverridable omcGen {
     version = "3.11.2";
     sha256 = "sha256-TTYigS2epmJ37SBBZQGTKyR40r2txhvzNM1RMM8jkcY=";
   };
-  omc_3_10 = makeOverridable omcGen {
+  omc_3_10 = lib.makeOverridable omcGen {
     version = "3.10.0";
     sha256 = "sha256-BpR/Ts/IJGnzoGE3jzv6LeE322L62Xpv9ojP6MVMjIk=";
   };
@@ -75,9 +76,9 @@ rec {
 
   omc-git =
     let
-      repoMeta = importJSON ../repos/omc-main.json;
+      repoMeta = lib.importJSON ../repos/omc-main.json;
     in
-    makeOverridable omcGen {
+    lib.makeOverridable omcGen {
       version = repoMeta.version;
       rev = repoMeta.rev;
       sha256 = repoMeta.sha256;

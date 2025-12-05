@@ -7,10 +7,11 @@
 , gpgme
 , pkg-config
 , validatePkgConfig
+, installShellFiles
+, versionCheckHook
 ,
 }:
 
-with lib;
 rec {
   operatorSdkGen =
     { version
@@ -20,10 +21,9 @@ rec {
     ,
     }:
 
-    buildGoModule rec {
-      inherit version vendorHash;
+    buildGoModule (finalAttrs: {
       pname = "operator-sdk";
-      rev = "v${version}";
+      inherit version vendorHash;
 
       buildInputs = [
         sqlite
@@ -33,6 +33,7 @@ rec {
         git
         pkg-config
         validatePkgConfig
+        installShellFiles
       ];
       nativeInstallCheckInputs = [ versionCheckHook ];
 
@@ -40,28 +41,27 @@ rec {
       ldflags =
         let
           t = "github.com/operator-framework/operator-sdk/internal/version";
+          rev = "v${finalAttrs.version}";
         in
         [
           "-s"
           "-w"
-          "-X ${t}.GitVersion=${version}"
+          "-X ${t}.GitVersion=${finalAttrs.version}"
           "-X ${t}.KubernetesVersion=${k8sVersion}"
         ];
       CGO_CFLAGS = lib.optionals stdenv.cc.isGNU [ "-Wno-return-local-addr" ];
 
       src = fetchFromGitHub {
-        inherit rev;
+        rev = "v${finalAttrs.version}";
         owner = "operator-framework";
         repo = "operator-sdk";
         sha256 = sha256;
       };
 
       postInstall = ''
-        # completions
-        mkdir -p $out/share/bash-completion/completions/
-        $out/bin/operator-sdk completion bash > $out/share/bash-completion/completions/operator-sdk
-        mkdir -p $out/share/zsh/site-functions/
-        $out/bin/operator-sdk completion zsh > $out/share/zsh/site-functions/_operator-sdk
+        installShellCompletion --cmd operator-sdk \
+          --bash <($out/bin/operator-sdk completion bash) \
+          --zsh <($out/bin/operator-sdk completion zsh)
       '';
 
       meta = {
@@ -71,21 +71,21 @@ rec {
         platforms = lib.platforms.unix;
         mainProgram = "operator-sdk";
       };
-    };
+    });
 
-  operator-sdk_1_42 = makeOverridable operatorSdkGen {
+  operator-sdk_1_42 = lib.makeOverridable operatorSdkGen {
     version = "1.42.0";
     k8sVersion = "1.32";
     sha256 = "sha256-iXLAFFO7PCxA8QuQ9pMmQ/GBbVM5wBy9cVzSQRHHPrg=";
     vendorHash = "sha256-F2ZYEEFG8hqCcy16DUmP9ilG6e20nXBiJnB6U+wezAo=";
   };
-  operator-sdk_1_41 = makeOverridable operatorSdkGen {
+  operator-sdk_1_41 = lib.makeOverridable operatorSdkGen {
     version = "1.41.1";
     k8sVersion = "1.32";
     sha256 = "sha256-J9vdLXJ5qw+Gz5I03l0CDsYw1AwCOSjYX5jP9Qo/UU8=";
     vendorHash = "sha256-O2PVS3mwqz0n+TG9SIHzlbm19JEXTWHkoIzn/snloss=";
   };
-  operator-sdk_1_40 = makeOverridable operatorSdkGen {
+  operator-sdk_1_40 = lib.makeOverridable operatorSdkGen {
     version = "1.40.0";
     k8sVersion = "1.32";
     sha256 = "sha256-7vTVoijlVSw7rLNqvz3EH2KxsWkOthhhhpO6A7f8WUE=";

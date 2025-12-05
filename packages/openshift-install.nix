@@ -1,12 +1,12 @@
 { stdenv
 , lib
 , fetchurl
+, versionCheckHook
 ,
 }:
 
-with lib;
 let
-  versionsMeta = importJSON ../repos/openshift-install.json;
+  versionsMeta = lib.importJSON ../repos/openshift-install.json;
 in
 rec {
   openshiftInstallGen =
@@ -41,7 +41,7 @@ rec {
         else
           throw "unsupported platform";
     in
-    stdenv.mkDerivation rec {
+    stdenv.mkDerivation (finalAttrs: {
       pname = "openshift-install";
       version = versionData.version;
 
@@ -55,14 +55,14 @@ rec {
 
       unpackPhase = ''
         runHook preUnpack
-        mkdir openshift-install-${version}
-        tar -C openshift-install-${version} -xzf $src
+        mkdir openshift-install-${finalAttrs.version}
+        tar -C openshift-install-${finalAttrs.version} -xzf $src
         runHook postUnpack
       '';
 
       installPhase = ''
         runHook preInstall
-        install -D openshift-install-${version}/openshift-install $out/bin/openshift-install
+        install -D openshift-install-${finalAttrs.version}/openshift-install $out/bin/openshift-install
         patchelf \
           --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
           $out/bin/openshift-install || true # in case it is dynamically linked
@@ -82,28 +82,28 @@ rec {
         platforms = lib.platforms.linux ++ lib.platforms.darwin;
         mainProgram = "openshift-install";
       };
-    };
+    });
 
   openshift-install = openshift-install_4_20;
-  openshift-install_4_20 = makeOverridable openshiftInstallGen {
+  openshift-install_4_20 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.20";
   };
-  openshift-install_4_19 = makeOverridable openshiftInstallGen {
+  openshift-install_4_19 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.19";
   };
-  openshift-install_4_18 = makeOverridable openshiftInstallGen {
+  openshift-install_4_18 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.18";
   };
-  openshift-install_4_17 = makeOverridable openshiftInstallGen {
+  openshift-install_4_17 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.17";
   };
-  openshift-install_4_16 = makeOverridable openshiftInstallGen {
+  openshift-install_4_16 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.16";
   };
-  openshift-install_4_15 = makeOverridable openshiftInstallGen {
+  openshift-install_4_15 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.15";
   };
-  openshift-install_4_14 = makeOverridable openshiftInstallGen {
+  openshift-install_4_14 = lib.makeOverridable openshiftInstallGen {
     versionData = versionsMeta."4.14";
   };
 }

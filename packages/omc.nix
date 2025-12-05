@@ -46,9 +46,11 @@ rec {
         export HOME=$(pwd)
       '';
       postInstall = ''
+        $out/bin/omc completion bash > omc.bash
+        $out/bin/omc completion zsh > omc.zsh
         installShellCompletion --cmd omc \
-          --bash <($out/bin/omc completion bash) \
-          --zsh <($out/bin/omc completion zsh)
+          --bash omc.bash \
+          --zsh omc.zsh
       '';
 
       meta = {

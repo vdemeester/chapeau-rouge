@@ -1,0 +1,111 @@
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p jq
+
+# Generate markdown table of packages from Nix flake and update README.md
+#
+# Usage:
+#   ./generate-package-table
+#
+# This script automatically updates the package table in README.md
+# between the markers:
+#   <!-- BEGIN PACKAGE TABLE -->
+#   <!-- END PACKAGE TABLE -->
+
+set -euo pipefail
+
+README="README.md"
+TEMP_FILE=$(mktemp)
+
+# All systems defined in the flake
+SYSTEMS=("aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux")
+
+# Generate the package table
+generate_table() {
+  echo "| Package | Version | Platforms |"
+  echo "|---|---|---|"
+
+  # Collect all unique package names across all systems
+  declare -A all_packages
+  declare -A package_versions
+  declare -A package_platforms
+
+  for system in "${SYSTEMS[@]}"; do
+    # Get all package names for this system
+    packages=$(nix flake show --json 2>/dev/null | \
+      jq -r ".packages.\"${system}\" | keys[]? // empty" 2>/dev/null || true)
+
+    while IFS= read -r pkg; do
+      [ -z "$pkg" ] && continue
+
+      # Mark this package as existing
+      all_packages["$pkg"]=1
+
+      # Get version if we haven't already
+      if [ -z "${package_versions[$pkg]:-}" ]; then
+        version=$(nix eval ".#${pkg}.version" --raw 2>/dev/null || echo "unknown")
+        package_versions["$pkg"]="$version"
+      fi
+
+      # Add this system to the package's platform list
+      if [ -z "${package_platforms[$pkg]:-}" ]; then
+        package_platforms["$pkg"]="$system"
+      else
+        package_platforms["$pkg"]="${package_platforms[$pkg]}, $system"
+      fi
+    done <<< "$packages"
+  done
+
+  # Sort package names and output table rows
+  for pkg in $(echo "${!all_packages[@]}" | tr ' ' '\n' | sort); do
+    version="${package_versions[$pkg]}"
+    platforms="${package_platforms[$pkg]}"
+
+    # Convert comma-separated list to backtick-wrapped list
+    platforms=$(echo "$platforms" | sed 's/, /`, `/g' | sed 's/^/`/' | sed 's/$/`/')
+
+    echo "| \`${pkg}\` | \`${version}\` | ${platforms} |"
+  done
+}
+
+# Check if README exists
+if [ ! -f "$README" ]; then
+  echo "Error: $README not found" >&2
+  exit 1
+fi
+
+# Generate new table content
+echo "Generating package table..."
+NEW_TABLE=$(generate_table)
+
+# Check if markers exist in README
+if ! grep -q "<!-- BEGIN PACKAGE TABLE -->" "$README"; then
+  echo "Error: Could not find <!-- BEGIN PACKAGE TABLE --> marker in $README" >&2
+  echo "Please add the markers manually to indicate where the table should be inserted." >&2
+  exit 1
+fi
+
+if ! grep -q "<!-- END PACKAGE TABLE -->" "$README"; then
+  echo "Error: Could not find <!-- END PACKAGE TABLE --> marker in $README" >&2
+  exit 1
+fi
+
+# Update README.md with new table
+awk -v new_table="$NEW_TABLE" '
+  /<!-- BEGIN PACKAGE TABLE -->/ {
+    print
+    print ""
+    print new_table
+    print ""
+    skip=1
+    next
+  }
+  /<!-- END PACKAGE TABLE -->/ {
+    skip=0
+  }
+  !skip
+' "$README" > "$TEMP_FILE"
+
+# Replace original file
+mv "$TEMP_FILE" "$README"
+
+echo "✓ Updated $README with current package information"

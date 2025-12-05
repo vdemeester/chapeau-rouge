@@ -53,23 +53,23 @@ rec {
         inherit rev;
         owner = "operator-framework";
         repo = "operator-sdk";
-        sha256 = "${sha256}";
+        sha256 = sha256;
       };
 
       postInstall = ''
-        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/operator-sdk completion bash > $out/share/bash-completion/completions/operator-sdk
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/operator-sdk completion zsh > $out/share/zsh/site-functions/_operator-sdk
-        runHook postInstall
       '';
 
       meta = {
         description = "SDK for building Kubernetes applications. Provides high level APIs, useful abstractions, and project scaffolding";
         homepage = "https://github.com/operator-framework/operator-sdk";
         license = lib.licenses.asl20;
+        platforms = lib.platforms.unix;
+        mainProgram = "operator-sdk";
       };
     };
 

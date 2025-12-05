@@ -29,6 +29,8 @@ rec {
       description = "What did you do last week, month, year?";
       homepage = "https://github.com/psss/did";
       license = lib.licenses.gpl2;
+      platforms = lib.platforms.unix;
+      mainProgram = "did";
     };
   };
 }

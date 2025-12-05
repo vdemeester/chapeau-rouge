@@ -33,7 +33,7 @@ rec {
         inherit rev;
         owner = "gmeghnag";
         repo = "omc";
-        sha256 = "${sha256}";
+        sha256 = sha256;
       };
       vendorHash = null;
 
@@ -42,13 +42,11 @@ rec {
         export HOME=$(pwd)
       '';
       postInstall = ''
-        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/omc completion bash > $out/share/bash-completion/completions/omc
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/omc completion zsh > $out/share/zsh/site-functions/omc
-        runHook postInstall
       '';
       nativeInstallCheckInputs = [ versionCheckHook ];
 
@@ -56,6 +54,8 @@ rec {
         description = "OpenShift Must-Gather Client";
         homepage = "https://github.com/gmeghnag/omc";
         license = lib.licenses.asl20;
+        platforms = lib.platforms.unix;
+        mainProgram = "omc";
       };
     };
 
@@ -78,8 +78,8 @@ rec {
       repoMeta = importJSON ../repos/omc-main.json;
     in
     makeOverridable omcGen {
-      version = "${repoMeta.version}";
-      rev = "${repoMeta.rev}";
-      sha256 = "${repoMeta.sha256}";
+      version = repoMeta.version;
+      rev = repoMeta.rev;
+      sha256 = repoMeta.sha256;
     };
 }

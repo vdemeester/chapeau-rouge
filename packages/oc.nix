@@ -47,7 +47,7 @@ rec {
 
       src = fetchurl {
         url = getUrl versionData.version;
-        sha256 = "${sha256 versionData}";
+        sha256 = sha256 versionData;
       };
 
       dontBuild = true;
@@ -75,6 +75,14 @@ rec {
       '';
 
       nativeInstallCheckInputs = [ versionCheckHook ];
+
+      meta = {
+        description = "OpenShift CLI tool";
+        homepage = "https://github.com/openshift/oc";
+        license = lib.licenses.asl20;
+        platforms = lib.platforms.linux ++ lib.platforms.darwin;
+        mainProgram = "oc";
+      };
     };
 
   oc = oc_4_20;

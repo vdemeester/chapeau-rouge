@@ -47,7 +47,7 @@ rec {
 
       src = fetchurl {
         url = getUrl versionData.version;
-        sha256 = "${sha256 versionData}";
+        sha256 = sha256 versionData;
       };
 
       dontBuild = true;
@@ -79,6 +79,8 @@ rec {
         description = "Install an OpenShift cluster";
         homepage = "https://github.com/openshift/installer";
         license = lib.licenses.asl20;
+        platforms = lib.platforms.linux ++ lib.platforms.darwin;
+        mainProgram = "openshift-install";
       };
     };
 

@@ -32,7 +32,7 @@ rec {
         inherit rev;
         owner = "gmeghnag";
         repo = "koff";
-        sha256 = "${sha256}";
+        sha256 = sha256;
       };
       vendorHash = null;
 
@@ -41,13 +41,11 @@ rec {
         export HOME=$(pwd)
       '';
       postInstall = ''
-        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/koff completion bash > $out/share/bash-completion/completions/koff
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/koff completion zsh > $out/share/zsh/site-functions/koff
-        runHook postInstall
       '';
       nativeInstallCheckInputs = [ versionCheckHook ];
 
@@ -55,6 +53,8 @@ rec {
         description = "OpenShift Must-Gather Client";
         homepage = "https://github.com/gmeghnag/koff";
         license = lib.licenses.asl20;
+        platforms = lib.platforms.unix;
+        mainProgram = "koff";
       };
     };
 
@@ -69,8 +69,8 @@ rec {
       repoMeta = importJSON ../repos/koff-main.json;
     in
     makeOverridable koffGen {
-      version = "${repoMeta.version}";
-      rev = "${repoMeta.rev}";
-      sha256 = "${repoMeta.sha256}";
+      version = repoMeta.version;
+      rev = repoMeta.rev;
+      sha256 = repoMeta.sha256;
     };
 }

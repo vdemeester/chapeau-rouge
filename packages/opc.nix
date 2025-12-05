@@ -21,7 +21,7 @@ rec {
         inherit rev;
         owner = "openshift-pipelines";
         repo = "opc";
-        sha256 = "${sha256}";
+        sha256 = sha256;
       };
       vendorHash = null;
 
@@ -31,19 +31,19 @@ rec {
         runHook postPatch
       '';
       postInstall = ''
-        runHook preInstall
         # completions
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/opc completion bash > $out/share/bash-completion/completions/opc
         mkdir -p $out/share/zsh/site-functions/
         $out/bin/opc completion zsh > $out/share/zsh/site-functions/opc
-        runHook postInstall
       '';
 
       meta = {
         description = "A CLI for OpenShift Pipeline";
         homepage = "https://github.com/openshift-pipelines/opc";
         license = lib.licenses.asl20;
+        platforms = lib.platforms.unix;
+        mainProgram = "opc";
       };
     };
 
@@ -62,8 +62,8 @@ rec {
       repoMeta = importJSON ../repos/opc-main.json;
     in
     makeOverridable opcGen {
-      version = "${repoMeta.version}";
-      rev = "${repoMeta.rev}";
-      sha256 = "${repoMeta.sha256}";
+      version = repoMeta.version;
+      rev = repoMeta.rev;
+      sha256 = repoMeta.sha256;
     };
 }

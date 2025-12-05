@@ -1,24 +1,24 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, git
-, sqlite
-, gpgme
-, pkg-config
-, validatePkgConfig
-, installShellFiles
-, versionCheckHook
-,
+{
+  stdenv,
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  git,
+  sqlite,
+  gpgme,
+  pkg-config,
+  validatePkgConfig,
+  installShellFiles,
+  versionCheckHook,
 }:
 
 rec {
   operatorSdkGen =
-    { version
-    , k8sVersion
-    , sha256
-    , vendorHash
-    ,
+    {
+      version,
+      k8sVersion,
+      sha256,
+      vendorHash,
     }:
 
     buildGoModule (finalAttrs: {
@@ -41,7 +41,6 @@ rec {
       ldflags =
         let
           t = "github.com/operator-framework/operator-sdk/internal/version";
-          rev = "v${finalAttrs.version}";
         in
         [
           "-s"

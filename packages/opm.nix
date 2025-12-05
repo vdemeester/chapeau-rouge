@@ -1,21 +1,21 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, git
-, gpgme
-, pkg-config
-, validatePkgConfig
-, installShellFiles
-, versionCheckHook
-,
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  git,
+  gpgme,
+  pkg-config,
+  validatePkgConfig,
+  installShellFiles,
+  versionCheckHook,
 }:
 
 rec {
   opmGen =
-    { version
-    , sha256
-    , vendorHash
-    ,
+    {
+      version,
+      sha256,
+      vendorHash,
     }:
 
     buildGoModule (finalAttrs: {

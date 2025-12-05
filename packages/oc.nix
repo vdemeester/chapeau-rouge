@@ -1,8 +1,8 @@
-{ stdenv
-, lib
-, fetchurl
-, versionCheckHook
-,
+{
+  stdenv,
+  lib,
+  fetchurl,
+  versionCheckHook,
 }:
 
 let
@@ -10,8 +10,8 @@ let
 in
 rec {
   ocGen =
-    { versionData
-    ,
+    {
+      versionData,
     }:
 
     let

@@ -1,20 +1,18 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, versionCheckHook
-,
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
 }:
 
 rec {
   opcGen =
-    { version
-    , sha256
-    , rev ? "v${version}"
-    ,
+    {
+      version,
+      sha256,
+      rev ? "v${version}",
     }:
-    buildGoModule (finalAttrs: {
+    buildGoModule (_finalAttrs: {
       pname = "opc";
       inherit version;
 

@@ -1,18 +1,17 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, versionCheckHook
-,
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  versionCheckHook,
 }:
 
 rec {
   koffGen =
-    { version
-    , sha256
-    , rev ? "v${version}"
-    ,
+    {
+      version,
+      sha256,
+      rev ? "v${version}",
     }:
     buildGoModule (finalAttrs: {
       pname = "koff";

@@ -1,8 +1,8 @@
-self: super:
+_self: super:
 let
   mkGitOc =
     namePrefix: jsonFile:
-    { ... }@args:
+    { ... }:
     let
       repoMeta = super.lib.importJSON jsonFile;
       fetcher =
@@ -14,7 +14,7 @@ let
     builtins.foldl' (drv: fn: fn drv) super.openshift ([
       (
         drv:
-        drv.overrideAttrs (old: {
+        drv.overrideAttrs (_old: {
           name = "${namePrefix}-${repoMeta.version}";
           inherit (repoMeta) version rev;
           src = fetcher (
@@ -82,6 +82,7 @@ in
   # omc
   inherit (super.callPackage ../packages/omc.nix { })
     omc
+    omc_3_13
     omc_3_12
     omc_3_11
     omc_3_10

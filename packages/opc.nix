@@ -5,11 +5,11 @@
   installShellFiles,
 }:
 
-rec {
+let
   opcGen =
     {
       version,
-      sha256,
+      hash,
       rev ? "v${version}",
     }:
     buildGoModule (_finalAttrs: {
@@ -17,10 +17,9 @@ rec {
       inherit version;
 
       src = fetchFromGitHub {
-        inherit rev;
+        inherit rev hash;
         owner = "openshift-pipelines";
         repo = "opc";
-        sha256 = sha256;
       };
       vendorHash = null;
 
@@ -45,24 +44,20 @@ rec {
         mainProgram = "opc";
       };
     });
-
-  opc_1_19 = lib.makeOverridable opcGen {
+in
+{
+  opc = opcGen {
     version = "1.19.0";
-    sha256 = "sha256-E0uhX9hfPJkXgLmruYpg1Zj4LcHR9QS0mGE7WaQaPo4=";
+    hash = "sha256-E0uhX9hfPJkXgLmruYpg1Zj4LcHR9QS0mGE7WaQaPo4=";
   };
-  opc_1_18 = lib.makeOverridable opcGen {
-    version = "1.18.0";
-    sha256 = "sha256-9/qlrFJw6Q4jjlvTr4tFaKiC9ckubM59eV27MQnbhcQ=";
-  };
-  opc = opc_1_19;
 
   opc-git =
     let
       repoMeta = lib.importJSON ../repos/opc-main.json;
     in
-    lib.makeOverridable opcGen {
+    opcGen {
       version = repoMeta.version;
       rev = repoMeta.rev;
-      sha256 = repoMeta.sha256;
+      hash = repoMeta.sha256;
     };
 }

@@ -36,23 +36,12 @@ get_git_packages() {
     local git_packages=()
     for json_file in repos/*.json; do
         if [ -f "$json_file" ]; then
-            # Extract package name from filename (e.g., deptree-main.json -> deptree)
+            # Extract package name from filename (e.g., oc-main.json -> oc)
             local pkg_name=$(basename "$json_file" | sed 's/-[^-]*\.json$//')
             git_packages+=("$pkg_name")
         fi
     done
     echo "${git_packages[@]}"
-}
-
-# Check if a package has a version suffix (e.g., opm_1_60, operator-sdk_1_41)
-# These versioned variants should not be updated by nix-update
-has_version_suffix() {
-    local package=$1
-    # Match patterns like _X_Y or _X at the end (version numbers)
-    if [[ "$package" =~ _[0-9]+(_[0-9]+)?$ ]]; then
-        return 0
-    fi
-    return 1
 }
 
 # Check if a package is git-tracked (either by name or by using a git-tracked repo JSON)
@@ -67,6 +56,11 @@ is_git_package() {
         fi
     done
 
+    # Check if package ends with -git
+    if [[ "$package" == *-git ]]; then
+        return 0
+    fi
+
     # Check if the package's nix file imports any git-tracked repo JSON
     local pkg_file="packages/${package}.nix"
     if [ -f "$pkg_file" ]; then
@@ -78,44 +72,6 @@ is_git_package() {
                 fi
             fi
         done
-    fi
-
-    return 1
-}
-
-# Check if a package has versioned variants in the flake
-# (e.g., opm has opm_1_60, opm_1_61, so opm should be skipped)
-has_versioned_variants() {
-    local package=$1
-    local all_packages=($(get_all_packages))
-
-    for pkg in "${all_packages[@]}"; do
-        # Check if there's a package named ${package}_X_Y or ${package}_X
-        if [[ "$pkg" =~ ^${package}_[0-9]+(_[0-9]+)?$ ]]; then
-            return 0
-        fi
-    done
-    return 1
-}
-
-# Check if a package should be skipped for nix-update
-should_skip_nix_update() {
-    local package=$1
-
-    # Skip git-tracked packages
-    if is_git_package "$package"; then
-        return 0
-    fi
-
-    # Skip versioned variants (e.g., opm_1_60, operator-sdk_1_41)
-    if has_version_suffix "$package"; then
-        return 0
-    fi
-
-    # Skip base packages that have versioned variants
-    # (updating opm would modify opm_1_61 since opm = opm_1_61)
-    if has_versioned_variants "$package"; then
-        return 0
     fi
 
     return 1
@@ -185,10 +141,9 @@ main() {
 
         # Then update packages that can use nix-update
         for package in "${all_packages[@]}"; do
-            if should_skip_nix_update "$package"; then
-                info "Skipping $package (git-tracked or versioned variant)"
+            if is_git_package "$package"; then
+                info "Skipping $package (git-tracked)"
             else
-                info "Updating $package with nix-update..."
                 update_with_nix_update "$package" || true
             fi
         done
@@ -218,8 +173,6 @@ main() {
             # Categorize package
             if is_git_package "$package"; then
                 git_packages_to_update+=("$package")
-            elif has_version_suffix "$package"; then
-                warn "Skipping $package (versioned variant, update the base package instead)"
             else
                 nix_packages_to_update+=("$package")
             fi

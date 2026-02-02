@@ -6,11 +6,11 @@
   versionCheckHook,
 }:
 
-rec {
+let
   koffGen =
     {
       version,
-      sha256,
+      hash,
       rev ? "v${version}",
     }:
     buildGoModule (finalAttrs: {
@@ -29,10 +29,9 @@ rec {
         ];
 
       src = fetchFromGitHub {
-        inherit rev;
+        inherit rev hash;
         owner = "gmeghnag";
         repo = "koff";
-        sha256 = sha256;
       };
       vendorHash = null;
 
@@ -57,20 +56,20 @@ rec {
         mainProgram = "koff";
       };
     });
-
-  koff_1_0 = lib.makeOverridable koffGen {
+in
+{
+  koff = koffGen {
     version = "1.0.1";
-    sha256 = "sha256-qMZcyXqQ+zEEytnQbTF37I0+sZYJRNTXyL8rgDiFI1U=";
+    hash = "sha256-qMZcyXqQ+zEEytnQbTF37I0+sZYJRNTXyL8rgDiFI1U=";
   };
-  koff = koff_1_0;
 
   koff-git =
     let
       repoMeta = lib.importJSON ../repos/koff-main.json;
     in
-    lib.makeOverridable koffGen {
+    koffGen {
       version = repoMeta.version;
       rev = repoMeta.rev;
-      sha256 = repoMeta.sha256;
+      hash = repoMeta.sha256;
     };
 }

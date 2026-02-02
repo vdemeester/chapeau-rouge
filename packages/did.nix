@@ -3,9 +3,9 @@
   python3Packages,
   fetchFromGitHub,
 }:
-with lib;
-rec {
-  did = python3Packages.buildPythonApplication {
+
+{
+  did = python3Packages.buildPythonApplication (finalAttrs: {
     pname = "did";
     version = "0.22";
     pyproject = true;
@@ -13,17 +13,19 @@ rec {
     src = fetchFromGitHub {
       owner = "psss";
       repo = "did";
-      tag = "0.22";
-      sha256 = "sha256-LIuvO2RR8MizYhQnbp+FfljrRJMorITFe6/hXz5t338=";
+      tag = finalAttrs.version;
+      hash = "sha256-LIuvO2RR8MizYhQnbp+FfljrRJMorITFe6/hXz5t338=";
     };
-    propagatedBuildInputs = [
+
+    build-system = [ python3Packages.setuptools ];
+
+    dependencies = [
       python3Packages.python-dateutil
       python3Packages.requests
       python3Packages.requests-gssapi
       python3Packages.tenacity
       python3Packages.urllib3
     ];
-    build-system = [ python3Packages.setuptools ];
 
     meta = {
       description = "What did you do last week, month, year?";
@@ -32,5 +34,5 @@ rec {
       platforms = lib.platforms.unix;
       mainProgram = "did";
     };
-  };
+  });
 }

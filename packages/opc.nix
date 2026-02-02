@@ -12,7 +12,7 @@ let
       hash,
       rev ? "v${version}",
     }:
-    buildGoModule (_finalAttrs: {
+    buildGoModule (finalAttrs: {
       pname = "opc";
       inherit version;
 
@@ -27,9 +27,10 @@ let
 
       patchPhase = ''
         runHook prePatch
-        sed -i 's/devel/${version}/' ./pkg/version.json
+        sed -i 's/devel/${finalAttrs.version}/' ./pkg/version.json
         runHook postPatch
       '';
+
       postInstall = ''
         installShellCompletion --cmd opc \
           --bash <($out/bin/opc completion bash) \

@@ -18,15 +18,19 @@ const (
 )
 
 var (
-	versions  string
-	archs     string
-	platforms string
+	versions   string
+	minVersion string
+	archs      string
+	platforms  string
+	autoDetect bool
 )
 
 func main() {
-	flag.StringVar(&versions, "version", "", "versions to list / extract")
+	flag.StringVar(&versions, "version", "", "versions to list / extract (comma-separated, e.g., '4.14,4.15')")
+	flag.StringVar(&minVersion, "min-version", "", "minimum version to track (e.g., '4.14'), auto-detects all versions >= this")
 	flag.StringVar(&archs, "arch", "", "architectures to list / extract")
 	flag.StringVar(&platforms, "platform", "", "platform to list / extract")
+	flag.BoolVar(&autoDetect, "auto", false, "auto-detect all available versions (use with -min-version to filter)")
 	flag.Parse()
 
 	args := flag.Args()
@@ -36,7 +40,20 @@ func main() {
 	}
 	filename := args[0]
 
-	versionsToFetch, err := getLatestVersions(strings.Split(versions, ","))
+	var versionsToFetch map[string]string
+	var err error
+
+	if autoDetect || minVersion != "" {
+		// Auto-detect versions from mirror
+		versionsToFetch, err = autoDetectVersions(minVersion)
+	} else if versions != "" {
+		// Use explicitly specified versions
+		versionsToFetch, err = getLatestVersions(strings.Split(versions, ","))
+	} else {
+		fmt.Fprintln(os.Stderr, "either -version, -min-version, or -auto must be specified")
+		os.Exit(1)
+	}
+
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -91,7 +108,8 @@ func fetchVersion(filename, version string, archs, platforms []string) (map[stri
 	return m, nil
 }
 
-func getLatestVersions(watchVersion []string) (map[string]string, error) {
+// getAllVersionCollections parses the mirror and returns all version collections grouped by major.minor
+func getAllVersionCollections() (map[string]semver.Collection, error) {
 	versionCollections := map[string]semver.Collection{}
 
 	doc, err := htmlquery.LoadURL(openshiftMirrorURL)
@@ -116,9 +134,64 @@ func getLatestVersions(watchVersion []string) (map[string]string, error) {
 		versionCollections[groupBy] = append(versionCollections[groupBy], v)
 	}
 
+	return versionCollections, nil
+}
+
+// autoDetectVersions finds all available major.minor versions and returns the latest patch for each
+// If minVer is specified, only versions >= minVer are included
+func autoDetectVersions(minVer string) (map[string]string, error) {
+	versionCollections, err := getAllVersionCollections()
+	if err != nil {
+		return nil, err
+	}
+
+	var minSemver *semver.Version
+	if minVer != "" {
+		minSemver, err = semver.NewVersion(minVer)
+		if err != nil {
+			return nil, fmt.Errorf("invalid min-version %q: %w", minVer, err)
+		}
+	}
+
+	r := map[string]string{}
+	for groupBy, versions := range versionCollections {
+		sort.Sort(versions)
+		latestInGroup := versions[len(versions)-1]
+
+		// Skip if below minimum version
+		if minSemver != nil {
+			// Compare major.minor only
+			groupVersion, err := semver.NewVersion(groupBy + ".0")
+			if err != nil {
+				continue
+			}
+			minGroupVersion, _ := semver.NewVersion(fmt.Sprintf("%d.%d.0", minSemver.Major(), minSemver.Minor()))
+			if groupVersion.LessThan(minGroupVersion) {
+				continue
+			}
+		}
+
+		r[groupBy] = latestInGroup.String()
+		fmt.Fprintf(os.Stderr, "Detected version %s -> %s\n", groupBy, latestInGroup.String())
+	}
+
+	return r, nil
+}
+
+// getLatestVersions returns the latest patch version for each specified major.minor version
+func getLatestVersions(watchVersion []string) (map[string]string, error) {
+	versionCollections, err := getAllVersionCollections()
+	if err != nil {
+		return nil, err
+	}
+
 	r := map[string]string{}
 	for _, wv := range watchVersion {
 		versions := versionCollections[wv]
+		if len(versions) == 0 {
+			fmt.Fprintf(os.Stderr, "Warning: no versions found for %s\n", wv)
+			continue
+		}
 		sort.Sort(versions)
 		r[wv] = versions[len(versions)-1].String()
 	}

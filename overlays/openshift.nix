@@ -1,13 +1,31 @@
 _self: super:
 let
+  inherit (super)
+    lib
+    stdenv
+    fetchurl
+    fetchFromGitHub
+    versionCheckHook
+    ;
+  inherit (super)
+    buildGoModule
+    installShellFiles
+    git
+    gpgme
+    pkg-config
+    validatePkgConfig
+    sqlite
+    ;
+  inherit (super) python3Packages;
+
   mkGitOc =
     namePrefix: jsonFile:
     { ... }:
     let
-      repoMeta = super.lib.importJSON jsonFile;
+      repoMeta = lib.importJSON jsonFile;
       fetcher =
         if repoMeta.type == "github" then
-          super.fetchFromGitHub
+          fetchFromGitHub
         else
           throw "Unknown repository type ${repoMeta.type}!";
     in
@@ -32,74 +50,92 @@ let
         })
       )
     ]);
+
+  # Import package sets with explicit arguments to avoid callPackage cycle
+  ocPackages = import ../packages/oc.nix {
+    inherit
+      stdenv
+      lib
+      fetchurl
+      versionCheckHook
+      ;
+  };
+  openshiftInstallPackages = import ../packages/openshift-install.nix {
+    inherit
+      stdenv
+      lib
+      fetchurl
+      versionCheckHook
+      ;
+  };
+  operatorSdkPackages = import ../packages/operator-sdk.nix {
+    inherit
+      stdenv
+      lib
+      buildGoModule
+      fetchFromGitHub
+      git
+      sqlite
+      gpgme
+      pkg-config
+      validatePkgConfig
+      installShellFiles
+      versionCheckHook
+      ;
+  };
+  opmPackages = import ../packages/opm.nix {
+    inherit
+      lib
+      buildGoModule
+      fetchFromGitHub
+      git
+      gpgme
+      pkg-config
+      validatePkgConfig
+      installShellFiles
+      versionCheckHook
+      ;
+  };
+  omcPackages = import ../packages/omc.nix {
+    inherit
+      lib
+      buildGoModule
+      fetchFromGitHub
+      installShellFiles
+      versionCheckHook
+      ;
+  };
+  koffPackages = import ../packages/koff.nix {
+    inherit
+      lib
+      buildGoModule
+      fetchFromGitHub
+      installShellFiles
+      versionCheckHook
+      ;
+  };
+  opcPackages = import ../packages/opc.nix {
+    inherit
+      lib
+      buildGoModule
+      fetchFromGitHub
+      installShellFiles
+      ;
+  };
+  didPackages = import ../packages/did.nix {
+    inherit lib python3Packages fetchFromGitHub;
+  };
 in
-{
-  inherit (super.callPackage ../packages/did.nix { })
-    did
-    ;
-  inherit (super.callPackage ../packages/oc.nix { })
-    oc_4_14
-    oc_4_15
-    oc_4_16
-    oc_4_17
-    oc_4_18
-    oc_4_19
-    oc_4_20
-    oc
-    ;
+# Merge all package sets together
+ocPackages
+// openshiftInstallPackages
+// operatorSdkPackages
+// opmPackages
+// omcPackages
+// koffPackages
+// opcPackages
+// didPackages
+// {
+  # oc-git uses a different build mechanism (from source)
   oc-git = mkGitOc "oc-git" ../repos/oc-main.json { };
-  inherit (super.callPackage ../packages/openshift-install.nix { })
-    openshift-install_4_14
-    openshift-install_4_15
-    openshift-install_4_16
-    openshift-install_4_17
-    openshift-install_4_18
-    openshift-install_4_19
-    openshift-install_4_20
-    openshift-install
-    # master based build
-    # openshift-install-git
-    ;
-  # Operator SDK
-  inherit (super.callPackage ../packages/operator-sdk.nix { })
-    operator-sdk_1
-    operator-sdk_1_42
-    operator-sdk_1_41
-    operator-sdk_1_40
-    operator-sdk
-    # master based build
-    # operator-sdk-git
-    ;
-  # OPM
-  inherit (super.callPackage ../packages/opm.nix { })
-    opm_1_61
-    opm_1_60
-    opm_1_59
-    opm
-    # master based build
-    # opm-git
-    ;
-  # omc
-  inherit (super.callPackage ../packages/omc.nix { })
-    omc
-    omc_3_13
-    omc_3_12
-    omc_3_11
-    omc_3_10
-    omc-git
-    ;
-  # koff
-  inherit (super.callPackage ../packages/koff.nix { })
-    koff
-    koff_1_0
-    koff-git
-    ;
-  # operator-tool(ing) = …
-  # opc
-  inherit (super.callPackage ../packages/opc.nix { })
-    opc_1_19
-    opc_1_18
-    opc
-    opc-git
-    ;
 }

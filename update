@@ -1,6 +1,3 @@
-#!/usr/bin/env nix-shell
-#! nix-shell -i bash -p bash git
-
-./repos/update && (git diff --exit-code $repo > /dev/null || git commit -m "Updated $repo" -- $repo)
-
-exit 0
+#!/usr/bin/env bash
+# Simple wrapper around update-packages for backwards compatibility
+exec ./update-packages "$@"

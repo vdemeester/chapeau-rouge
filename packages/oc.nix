@@ -7,8 +7,7 @@
 
 let
   versionsMeta = lib.importJSON ../repos/oc.json;
-in
-rec {
+
   ocGen =
     {
       versionData,
@@ -85,26 +84,35 @@ rec {
       };
     });
 
-  oc = oc_4_20;
-  oc_4_20 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.20";
-  };
-  oc_4_19 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.19";
-  };
-  oc_4_18 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.18";
-  };
-  oc_4_17 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.17";
-  };
-  oc_4_16 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.16";
-  };
-  oc_4_15 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.15";
-  };
-  oc_4_14 = lib.makeOverridable ocGen {
-    versionData = versionsMeta."4.14";
-  };
+  # Dynamically generate versioned packages from the JSON
+  # e.g., "4.20" -> oc_4_20
+  versionedPackages = lib.mapAttrs' (
+    version: data:
+    let
+      attrName = "oc_${builtins.replaceStrings [ "." ] [ "_" ] version}";
+    in
+    lib.nameValuePair attrName (lib.makeOverridable ocGen { versionData = data; })
+  ) versionsMeta;
+
+  # Find the latest version (highest major.minor)
+  sortedVersions = builtins.sort (
+    a: b:
+    let
+      aParts = lib.splitString "." a;
+      bParts = lib.splitString "." b;
+      aMajor = lib.toInt (builtins.elemAt aParts 0);
+      aMinor = lib.toInt (builtins.elemAt aParts 1);
+      bMajor = lib.toInt (builtins.elemAt bParts 0);
+      bMinor = lib.toInt (builtins.elemAt bParts 1);
+    in
+    if aMajor != bMajor then aMajor > bMajor else aMinor > bMinor
+  ) (builtins.attrNames versionsMeta);
+
+  latestVersion = builtins.head sortedVersions;
+  latestAttrName = "oc_${builtins.replaceStrings [ "." ] [ "_" ] latestVersion}";
+in
+versionedPackages
+// {
+  # Default to the latest version
+  oc = versionedPackages.${latestAttrName};
 }

@@ -7,8 +7,7 @@
 
 let
   versionsMeta = lib.importJSON ../repos/openshift-install.json;
-in
-rec {
+
   openshiftInstallGen =
     {
       versionData,
@@ -84,26 +83,35 @@ rec {
       };
     });
 
-  openshift-install = openshift-install_4_20;
-  openshift-install_4_20 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.20";
-  };
-  openshift-install_4_19 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.19";
-  };
-  openshift-install_4_18 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.18";
-  };
-  openshift-install_4_17 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.17";
-  };
-  openshift-install_4_16 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.16";
-  };
-  openshift-install_4_15 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.15";
-  };
-  openshift-install_4_14 = lib.makeOverridable openshiftInstallGen {
-    versionData = versionsMeta."4.14";
-  };
+  # Dynamically generate versioned packages from the JSON
+  # e.g., "4.20" -> openshift-install_4_20
+  versionedPackages = lib.mapAttrs' (
+    version: data:
+    let
+      attrName = "openshift-install_${builtins.replaceStrings [ "." ] [ "_" ] version}";
+    in
+    lib.nameValuePair attrName (lib.makeOverridable openshiftInstallGen { versionData = data; })
+  ) versionsMeta;
+
+  # Find the latest version (highest major.minor)
+  sortedVersions = builtins.sort (
+    a: b:
+    let
+      aParts = lib.splitString "." a;
+      bParts = lib.splitString "." b;
+      aMajor = lib.toInt (builtins.elemAt aParts 0);
+      aMinor = lib.toInt (builtins.elemAt aParts 1);
+      bMajor = lib.toInt (builtins.elemAt bParts 0);
+      bMinor = lib.toInt (builtins.elemAt bParts 1);
+    in
+    if aMajor != bMajor then aMajor > bMajor else aMinor > bMinor
+  ) (builtins.attrNames versionsMeta);
+
+  latestVersion = builtins.head sortedVersions;
+  latestAttrName = "openshift-install_${builtins.replaceStrings [ "." ] [ "_" ] latestVersion}";
+in
+versionedPackages
+// {
+  # Default to the latest version
+  openshift-install = versionedPackages.${latestAttrName};
 }

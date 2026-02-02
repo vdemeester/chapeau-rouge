@@ -1,8 +1,8 @@
-name: update-openshift-packages
+name: update-packages
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: '0 1 * * 0' # runs weekly on Sunday at 00:00
+    - cron: '0 1 * * 0' # runs weekly on Sunday at 01:00 UTC
 
 jobs:
   refresh-packages:
@@ -21,13 +21,17 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-      - name: Update inputs
+      - name: Update packages
         run: |
-          ./update
-      - name: Push commit with updated inputs
+          ./update-packages
+      - name: Generate package table
+        run: |
+          ./generate-package-table
+      - name: Commit and push updates
         run: |
           git status
-          git add repos
-          git commit -m "Auto-update packages"
+          # Commit any remaining uncommitted changes
+          git add -A
+          git diff --staged --quiet || git commit -m "Auto-update packages"
           git pull --rebase --autostash
           git push

@@ -85,10 +85,10 @@ rec {
     vendorHash = "sha256-O2PVS3mwqz0n+TG9SIHzlbm19JEXTWHkoIzn/snloss=";
   };
   operator-sdk_1_40 = lib.makeOverridable operatorSdkGen {
-    version = "1.40.0";
+    version = "1.42.0";
     k8sVersion = "1.32";
-    sha256 = "sha256-7vTVoijlVSw7rLNqvz3EH2KxsWkOthhhhpO6A7f8WUE=";
-    vendorHash = "sha256-4G6OpJgcTLGS+gzBdUjF5+uDCc5d4Z+MEkFFD0AymmU=";
+    sha256 = "sha256-iXLAFFO7PCxA8QuQ9pMmQ/GBbVM5wBy9cVzSQRHHPrg=";
+    vendorHash = "sha256-F2ZYEEFG8hqCcy16DUmP9ilG6e20nXBiJnB6U+wezAo=";
   };
   operator-sdk_1 = operator-sdk_1_42;
   operator-sdk = operator-sdk_1;

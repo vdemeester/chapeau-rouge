@@ -66,16 +66,16 @@ rec {
     sha256 = "sha256-ZzMsp57a5t4WsEjksqqMwYWd5dZ4NBLgThZMxGUh/hk=";
   };
   omc_3_12 = lib.makeOverridable omcGen {
-    version = "3.13.0";
-    sha256 = "sha256-ZzMsp57a5t4WsEjksqqMwYWd5dZ4NBLgThZMxGUh/hk=";
+    version = "3.12.2";
+    sha256 = "sha256-+kJXYaXd026Yruq0zhBoszWG0xgOhAmby+c5Wtz98Q8=";
   };
   omc_3_11 = lib.makeOverridable omcGen {
-    version = "3.13.0";
-    sha256 = "sha256-ZzMsp57a5t4WsEjksqqMwYWd5dZ4NBLgThZMxGUh/hk=";
+    version = "3.11.2";
+    sha256 = "sha256-TTYigS2epmJ37SBBZQGTKyR40r2txhvzNM1RMM8jkcY=";
   };
   omc_3_10 = lib.makeOverridable omcGen {
-    version = "3.13.0";
-    sha256 = "sha256-ZzMsp57a5t4WsEjksqqMwYWd5dZ4NBLgThZMxGUh/hk=";
+    version = "3.10.0";
+    sha256 = "sha256-BpR/Ts/IJGnzoGE3jzv6LeE322L62Xpv9ojP6MVMjIk=";
   };
   omc = omc_3_13;
 

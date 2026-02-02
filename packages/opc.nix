@@ -51,8 +51,8 @@ rec {
     sha256 = "sha256-E0uhX9hfPJkXgLmruYpg1Zj4LcHR9QS0mGE7WaQaPo4=";
   };
   opc_1_18 = lib.makeOverridable opcGen {
-    version = "1.19.0";
-    sha256 = "sha256-E0uhX9hfPJkXgLmruYpg1Zj4LcHR9QS0mGE7WaQaPo4=";
+    version = "1.18.0";
+    sha256 = "sha256-9/qlrFJw6Q4jjlvTr4tFaKiC9ckubM59eV27MQnbhcQ=";
   };
   opc = opc_1_19;
 

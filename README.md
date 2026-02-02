@@ -19,6 +19,7 @@ This repository provides the following overlays:
 | [`did`](https://github.com/psss/did) | `0.22` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`koff`](https://github.com/gmeghnag/koff) | `1.0.1` | `aarch64-linux`, `x86_64-linux` |
 | [`koff-git`](https://github.com/gmeghnag/koff) | `20250105.0` | `aarch64-linux`, `x86_64-linux` |
+| [`lumino-mcp-server`](https://github.com/spre-sre/lumino-mcp-server) | `0.9.3` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc`](https://github.com/openshift/oc) | `4.21.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_14`](https://github.com/openshift/oc) | `4.14.61` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_15`](https://github.com/openshift/oc) | `4.15.60` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
@@ -46,43 +47,6 @@ This repository provides the following overlays:
 | [`opm`](https://github.com/operator-framework/operator-registry) | `1.61.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 
 <!-- END PACKAGE TABLE -->
-
-<!-- PACKAGES_START -->
-## Packages
-
-| Package | Version | Platforms |
-|---|---|---|
-| `did` | `0.22` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `koff` | `1.0.1` | `aarch64-linux`, `x86_64-linux` |
-| `koff-git` | `20250105.0` | `aarch64-linux`, `x86_64-linux` |
-| `lumino-mcp-server` | `0.9.3` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc` | `4.21.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc-git` | `20260130.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_14` | `4.14.61` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_15` | `4.15.60` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_16` | `4.16.56` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_17` | `4.17.48` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_18` | `4.18.32` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_19` | `4.19.23` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_20` | `4.20.13` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `oc_4_21` | `4.21.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `omc` | `3.13.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `omc-git` | `20260112.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `opc` | `1.19.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `opc-git` | `20251222.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install` | `4.21.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_14` | `4.14.61` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_15` | `4.15.60` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_16` | `4.16.56` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_17` | `4.17.48` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_18` | `4.18.32` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_19` | `4.19.23` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_20` | `4.20.13` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `openshift-install_4_21` | `4.21.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `operator-sdk` | `1.42.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| `opm` | `1.61.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-
-<!-- PACKAGES_END -->
 
 ## Quickstart
 To get up and running quickly, add the following lines to your `/etc/nixos/configuration.nix`:

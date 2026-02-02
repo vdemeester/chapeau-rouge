@@ -30,8 +30,8 @@ jobs:
       - name: Commit and push updates
         run: |
           git status
-          # Commit any remaining uncommitted changes
-          git add -A
+          # Stage only expected files
+          git add README.md repos/ packages/ overlays/
           git diff --staged --quiet || git commit -m "Auto-update packages"
           git pull --rebase --autostash
           git push

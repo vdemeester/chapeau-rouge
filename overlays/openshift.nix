@@ -125,6 +125,10 @@ let
   didPackages = import ../packages/did.nix {
     inherit lib python3Packages fetchFromGitHub;
   };
+  luminoPackages = import ../packages/lumino.nix {
+    inherit lib python3Packages fetchFromGitHub;
+    inherit (super) makeWrapper;
+  };
 in
 # Merge all package sets together
 ocPackages
@@ -135,6 +139,7 @@ ocPackages
 // koffPackages
 // opcPackages
 // didPackages
+// luminoPackages
 // {
   # oc-git uses a different build mechanism (from source)
   oc-git = mkGitOc "oc-git" ../repos/oc-main.json { };

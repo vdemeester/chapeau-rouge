@@ -72,9 +72,9 @@ rec {
     vendorHash = "sha256-7U/b/c4TABNkI/GmIw8OUcPEaSxhlgo5PU5G3fF7DvQ=";
   };
   opm_1_60 = lib.makeOverridable opmGen {
-    version = "1.60.0";
-    sha256 = "sha256-ecXtpsW5T0dauE7cjW0RjWOoaQkIFIWLwwGuAuyP/Ok=";
-    vendorHash = "sha256-10JW3wM1bHqO9JDys6U6Wl3vKHa5gjG28PTLaVK1MGg=";
+    version = "1.62.0";
+    sha256 = "sha256-VIeENtuDJHK9qHkNhFCpbT1FD45KaR4L77K82fD1h6o=";
+    vendorHash = "sha256-7U/b/c4TABNkI/GmIw8OUcPEaSxhlgo5PU5G3fF7DvQ=";
   };
   opm_1_59 = lib.makeOverridable opmGen {
     version = "1.62.0";

@@ -66,6 +66,8 @@ is_git_package() {
     for git_pkg in "${git_packages[@]}"; do
         # Replace hyphens with underscores for matching (openshift-install -> openshift_install)
         local normalized_git_pkg="${git_pkg//-/_}"
+        # Pattern: [0-9]* in bash globs means "one digit followed by anything"
+        # (not "zero or more digits" as in regex). This correctly matches oc_4_14, etc.
         if [[ "$package" == "${normalized_git_pkg}_"[0-9]* ]]; then
             return 0
         fi

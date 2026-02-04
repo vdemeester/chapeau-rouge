@@ -44,7 +44,7 @@ This repository provides the following overlays:
 | [`openshift-install_4_20`](https://github.com/openshift/installer) | `4.20.13` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install_4_21`](https://github.com/openshift/installer) | `4.21.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`operator-sdk`](https://github.com/operator-framework/operator-sdk) | `1.42.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`opm`](https://github.com/operator-framework/operator-registry) | `1.62.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`opm`](https://github.com/operator-framework/operator-registry) | `1.63.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 
 <!-- END PACKAGE TABLE -->
 

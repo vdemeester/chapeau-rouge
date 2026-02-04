@@ -42,3 +42,17 @@ jobs:
           name: chapeau-rouge
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - run: nix build -L ".#${{ matrix.attr }}"
+
+  # Fan-in job - single required status check for branch protection
+  ci-success:
+    runs-on: ubuntu-latest
+    needs: [nix-build]
+    if: always()
+    steps:
+      - name: Check all jobs passed
+        run: |
+          if [[ "${{ needs.nix-build.result }}" != "success" ]]; then
+            echo "nix-build failed"
+            exit 1
+          fi
+          echo "All checks passed!"

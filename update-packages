@@ -61,6 +61,16 @@ is_git_package() {
         return 0
     fi
 
+    # Check if package is a versioned variant (e.g., oc_4_14, openshift-install_4_15)
+    # These are derived from repos JSON and should be skipped
+    for git_pkg in "${git_packages[@]}"; do
+        # Replace hyphens with underscores for matching (openshift-install -> openshift_install)
+        local normalized_git_pkg="${git_pkg//-/_}"
+        if [[ "$package" == "${normalized_git_pkg}_"[0-9]* ]]; then
+            return 0
+        fi
+    done
+
     # Check if the package's nix file imports any git-tracked repo JSON
     local pkg_file="packages/${package}.nix"
     if [ -f "$pkg_file" ]; then
@@ -82,7 +92,10 @@ update_with_nix_update() {
     local package=$1
     info "Updating $package with nix-update..."
 
-    if nix-update --flake --commit --use-update-script "$package"; then
+    # Note: --use-update-script is not used here because none of the packages
+    # in this flake define passthru.updateScript. If packages with custom
+    # update scripts are added, this should be made conditional.
+    if nix-update --flake --commit "$package"; then
         info "Successfully updated $package"
         return 0
     else

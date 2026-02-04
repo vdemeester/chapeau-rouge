@@ -82,7 +82,7 @@ update_with_nix_update() {
     local package=$1
     info "Updating $package with nix-update..."
 
-    if nix-update --flake --commit "$package"; then
+    if nix-update --flake --commit --use-update-script "$package"; then
         info "Successfully updated $package"
         return 0
     else

@@ -41,7 +41,7 @@
       rev = "v${finalAttrs.version}";
       owner = "operator-framework";
       repo = "operator-registry";
-      hash = "sha256-zoTUdrJc2/Y768K9VEFhPCzbk0XytEPbVJrH61fD2pg=";
+      hash = "sha256-0p3XkdBEM1++4DSfC8T5+QSMwESfRxOIusyZ+nxYb5M=";
     };
     vendorHash = "sha256-DERvfBApce5Ug9JIBFfo3yGJASvOxZmL5N2aZpmdonE=";
 

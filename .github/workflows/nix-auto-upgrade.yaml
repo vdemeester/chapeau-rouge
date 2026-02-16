@@ -16,14 +16,21 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: Update flake.lock
+        id: update-flake-lock
         uses: DeterminateSystems/update-flake-lock@834c491b2ece4de0bbd00d85214bb5e83b4da5c6 # v28
         with:
           token: ${{ secrets.SBR_BOT_TOKEN }}
           git-author-name: 'Vincent Demeester (sbr-bot)'
           git-author-email: 'bot@sbr.pm'
-          git-committer-name: 'Vincent Demeester (sbr-bot)'
+          git-committer-name: 'Vincent Demeester (sbr-bot)'
           git-committer-email: 'bot@sbr.pm'
           pr-title: "Update flake.lock" # Title of PR to be created
           pr-labels: |                  # Labels to be set on the PR
             dependencies
             automated
+      - name: Enable auto-merge
+        if: steps.update-flake-lock.outputs.pull-request-number != ''
+        run: |
+          gh pr merge --auto --rebase "${{ steps.update-flake-lock.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ secrets.SBR_BOT_TOKEN }}

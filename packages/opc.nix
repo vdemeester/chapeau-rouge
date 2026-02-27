@@ -28,6 +28,8 @@ let
       patchPhase = ''
         runHook prePatch
         sed -i 's/devel/${finalAttrs.version}/' ./pkg/version.json
+        sed -i 's/go 1.25.6/go 1.25.0/' go.mod
+        sed -i 's/go 1.25.6/go 1.25.0/' vendor/modules.txt
         runHook postPatch
       '';
 

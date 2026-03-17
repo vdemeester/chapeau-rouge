@@ -20,8 +20,8 @@ This repository provides the following overlays:
 | [`koff`](https://github.com/gmeghnag/koff) | `1.0.1` | `aarch64-linux`, `x86_64-linux` |
 | [`koff-git`](https://github.com/gmeghnag/koff) | `20250105.0` | `aarch64-linux`, `x86_64-linux` |
 | [`lumino-mcp-server`](https://github.com/spre-sre/lumino-mcp-server) | `0.9.3` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`oc`](https://github.com/openshift/oc) | `4.21.5` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`oc-git`](http://www.openshift.org) | `20260313.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`oc`](https://github.com/openshift/oc) | `4.21.6` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`oc-git`](http://www.openshift.org) | `20260316.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_14`](https://github.com/openshift/oc) | `4.14.62` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_15`](https://github.com/openshift/oc) | `4.15.62` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_16`](https://github.com/openshift/oc) | `4.16.58` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
@@ -29,12 +29,12 @@ This repository provides the following overlays:
 | [`oc_4_18`](https://github.com/openshift/oc) | `4.18.35` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_19`](https://github.com/openshift/oc) | `4.19.26` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_20`](https://github.com/openshift/oc) | `4.20.16` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`oc_4_21`](https://github.com/openshift/oc) | `4.21.5` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`oc_4_21`](https://github.com/openshift/oc) | `4.21.6` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`omc`](https://github.com/gmeghnag/omc) | `3.13.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`omc-git`](https://github.com/gmeghnag/omc) | `20260216.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`opc`](https://github.com/openshift-pipelines/opc) | `1.19.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`opc-git`](https://github.com/openshift-pipelines/opc) | `20260226.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`openshift-install`](https://github.com/openshift/installer) | `4.21.5` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`openshift-install`](https://github.com/openshift/installer) | `4.21.6` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install_4_14`](https://github.com/openshift/installer) | `4.14.62` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install_4_15`](https://github.com/openshift/installer) | `4.15.62` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install_4_16`](https://github.com/openshift/installer) | `4.16.58` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
@@ -42,7 +42,7 @@ This repository provides the following overlays:
 | [`openshift-install_4_18`](https://github.com/openshift/installer) | `4.18.35` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install_4_19`](https://github.com/openshift/installer) | `4.19.26` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install_4_20`](https://github.com/openshift/installer) | `4.20.16` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`openshift-install_4_21`](https://github.com/openshift/installer) | `4.21.5` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`openshift-install_4_21`](https://github.com/openshift/installer) | `4.21.6` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`operator-sdk`](https://github.com/operator-framework/operator-sdk) | `1.42.1` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`opm`](https://github.com/operator-framework/operator-registry) | `1.64.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 

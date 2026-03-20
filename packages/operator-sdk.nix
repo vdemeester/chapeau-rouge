@@ -15,7 +15,7 @@
 {
   operator-sdk = buildGoModule (finalAttrs: {
     pname = "operator-sdk";
-    version = "1.42.1";
+    version = "1.42.2";
 
     buildInputs = [
       sqlite
@@ -46,9 +46,9 @@
       rev = "v${finalAttrs.version}";
       owner = "operator-framework";
       repo = "operator-sdk";
-      hash = "sha256-mEOEwjjlrbzOK1OcLohmOubcHCQpEtV8zp8oJ6AgsnY=";
+      hash = "sha256-jBSHrSqeUVePQ6ZOF2cooHImoplsMgxgpXdvQ/3zxrA=";
     };
-    vendorHash = "sha256-pBoIvkg2BX9eNUYmY/wffkrMNMkhSGd9T5s6hzo9aOw=";
+    vendorHash = "sha256-0cggdw8UC7iTgYXEgxcIp+Xyvu4FDUhg/tTGwx7kqxI=";
 
     postInstall = ''
       installShellCompletion --cmd operator-sdk \

@@ -7,14 +7,14 @@
 {
   did = python3Packages.buildPythonApplication (finalAttrs: {
     pname = "did";
-    version = "0.22";
+    version = "0.23";
     pyproject = true;
 
     src = fetchFromGitHub {
       owner = "psss";
       repo = "did";
       tag = finalAttrs.version;
-      hash = "sha256-LIuvO2RR8MizYhQnbp+FfljrRJMorITFe6/hXz5t338=";
+      hash = "sha256-KdE26r+C7hH3qSG4VH+gy9xmDPEiEnGU2Ag7Oda7kjw=";
     };
 
     build-system = [ python3Packages.setuptools ];

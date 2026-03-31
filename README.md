@@ -16,12 +16,12 @@ This repository provides the following overlays:
 
 | Package | Version | Platforms |
 |---|---|---|
-| [`did`](https://github.com/psss/did) | `0.22` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`did`](https://github.com/psss/did) | `0.23` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`koff`](https://github.com/gmeghnag/koff) | `1.0.1` | `aarch64-linux`, `x86_64-linux` |
 | [`koff-git`](https://github.com/gmeghnag/koff) | `20250105.0` | `aarch64-linux`, `x86_64-linux` |
 | [`lumino-mcp-server`](https://github.com/spre-sre/lumino-mcp-server) | `0.9.3` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc`](https://github.com/openshift/oc) | `4.21.8` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`oc-git`](http://www.openshift.org) | `20260327.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`oc-git`](http://www.openshift.org) | `20260330.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_14`](https://github.com/openshift/oc) | `4.14.63` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_15`](https://github.com/openshift/oc) | `4.15.62` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_16`](https://github.com/openshift/oc) | `4.16.59` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |

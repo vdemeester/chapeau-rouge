@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          token: ${{ secrets.SBR_BOT_TOKEN }}
       - name: Install Nix
         uses: cachix/install-nix-action@3715ab1a11cac9e991980d7b4a28d80c7ebdd8f9 # v27
         with:
@@ -30,31 +32,43 @@ jobs:
       - name: Generate package table
         run: |
           ./generate-package-table
-      - name: Create Pull Request
-        id: create-pr
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          token: ${{ secrets.SBR_BOT_TOKEN }}
-          commit-message: "chore: auto-update packages"
-          branch: auto-update-packages
-          delete-branch: true
-          title: "chore: auto-update packages"
-          body: |
-            Automated package updates
-
-            This PR was automatically created by the update-packages workflow.
-
-            - Updates packages using nix-update
-            - Updates git-tracked packages from their repositories
-            - Regenerates package table in README.md
-          labels: |
-            dependencies
-            automated
-          committer: Vincent Demeester (sbr-bot) <bot@sbr.pm>
-          author: Vincent Demeester (sbr-bot) <bot@sbr.pm>
-      - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number != ''
+      - name: Check for changes
+        id: check-changes
         run: |
-          gh pr merge --auto --rebase "${{ steps.create-pr.outputs.pull-request-number }}"
+          # Commit any remaining uncommitted changes (e.g., README.md)
+          git add -A
+          if git diff --cached --quiet; then
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected, skipping PR creation"
+          else
+            git commit -m "chore: auto-update packages"
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected, will create PR"
+          fi
+      - name: Create or update pull request
+        if: steps.check-changes.outputs.has-changes == 'true'
+        run: |
+          # Push the branch (force to handle rebased main)
+          git push --force origin HEAD:refs/heads/auto-update-packages
+
+          # Create PR if it doesn't exist, otherwise it's already updated by the push
+          if ! gh pr view auto-update-packages --json number &>/dev/null; then
+            gh pr create \
+              --base main \
+              --head auto-update-packages \
+              --title "chore: auto-update packages" \
+              --body "Automated package updates
+
+          This PR was automatically created by the update-packages workflow.
+
+          - Updates packages using nix-update
+          - Updates git-tracked packages from their repositories
+          - Regenerates package table in README.md" \
+              --label "dependencies" \
+              --label "automated"
+          fi
+
+          # Enable auto-merge
+          gh pr merge auto-update-packages --auto --rebase
         env:
           GH_TOKEN: ${{ secrets.SBR_BOT_TOKEN }}

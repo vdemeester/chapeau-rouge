@@ -13,7 +13,7 @@
 {
   opm = buildGoModule (finalAttrs: {
     pname = "opm";
-    version = "1.65.0";
+    version = "1.68.0";
 
     buildInputs = [
       gpgme
@@ -41,9 +41,9 @@
       rev = "v${finalAttrs.version}";
       owner = "operator-framework";
       repo = "operator-registry";
-      hash = "sha256-cveylke+9uXmkgVQe+vcSerNuPr/Km40neftjrjnXi4=";
+      hash = "sha256-lP4oxOy7aIEZUUAj9ElgB0xf4SGp9TL0KSPoTl9TVdg=";
     };
-    vendorHash = "sha256-0Of0uERP1bl7v3e3IclrhH51+9lzDCR+J3XOx2rcKUI=";
+    vendorHash = "sha256-qmVLfaPJHu4q2Ltms5mwXQfRlkgzu6PdzZcjq3J8ZxA=";
 
     postInstall = ''
       installShellCompletion --cmd opm \

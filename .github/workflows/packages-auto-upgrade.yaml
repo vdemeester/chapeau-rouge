@@ -51,8 +51,8 @@ jobs:
           # Push the branch (force to handle rebased main)
           git push --force origin HEAD:refs/heads/auto-update-packages
 
-          # Create PR if it doesn't exist, otherwise it's already updated by the push
-          if ! gh pr view auto-update-packages --json number &>/dev/null; then
+          # Create PR if no open one exists, otherwise it's already updated by the push
+          if ! gh pr list --head auto-update-packages --state open --json number --jq '.[0].number' | grep -q .; then
             gh pr create \
               --base main \
               --head auto-update-packages \

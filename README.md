@@ -21,7 +21,7 @@ This repository provides the following overlays:
 | [`koff-git`](https://github.com/gmeghnag/koff) | `20250105.0` | `aarch64-linux`, `x86_64-linux` |
 | [`lumino-mcp-server`](https://github.com/spre-sre/lumino-mcp-server) | `0.9.3` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc`](https://github.com/openshift/oc) | `4.22.4` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`oc-git`](http://www.openshift.org) | `20260706.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`oc-git`](http://www.openshift.org) | `20260707.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_14`](https://github.com/openshift/oc) | `4.14.68` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_15`](https://github.com/openshift/oc) | `4.15.66` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_16`](https://github.com/openshift/oc) | `4.16.65` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
@@ -32,7 +32,7 @@ This repository provides the following overlays:
 | [`oc_4_21`](https://github.com/openshift/oc) | `4.21.23` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`oc_4_22`](https://github.com/openshift/oc) | `4.22.4` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`omc`](https://github.com/gmeghnag/omc) | `3.13.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
-| [`omc-git`](https://github.com/gmeghnag/omc) | `20260702.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
+| [`omc-git`](https://github.com/gmeghnag/omc) | `20260707.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`opc`](https://github.com/openshift-pipelines/opc) | `1.19.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`opc-git`](https://github.com/openshift-pipelines/opc) | `20260706.0` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |
 | [`openshift-install`](https://github.com/openshift/installer) | `4.22.4` | `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`, `x86_64-linux` |

@@ -17,25 +17,25 @@ let
       # https://mirror.openshift.com/pub/openshift-v4/arm64/clients/ocp/4.9.49/openshift-client-linux.tar.gz
       getUrl =
         version:
-        if (stdenv.isAarch64 && stdenv.isDarwin) then
+        if (stdenv.hostPlatform.isAarch64 && stdenv.hostPlatform.isDarwin) then
           "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-mac-arm64-${version}.tar.gz"
-        else if (stdenv.isAarch64 && stdenv.isLinux) then
+        else if (stdenv.hostPlatform.isAarch64 && stdenv.hostPlatform.isLinux) then
           "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-linux-arm64-${version}.tar.gz"
-        else if (stdenv.isx86_64 && stdenv.isDarwin) then
+        else if (stdenv.hostPlatform.isx86_64 && stdenv.hostPlatform.isDarwin) then
           "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-mac-${version}.tar.gz"
-        else if (stdenv.isx86_64 && stdenv.isLinux) then
+        else if (stdenv.hostPlatform.isx86_64 && stdenv.hostPlatform.isLinux) then
           "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${version}/openshift-install-linux-${version}.tar.gz"
         else
           throw "unsupported platform";
       sha256 =
         data:
-        if (stdenv.isAarch64 && stdenv.isDarwin) then
+        if (stdenv.hostPlatform.isAarch64 && stdenv.hostPlatform.isDarwin) then
           data.darwin.aarch64
-        else if (stdenv.isAarch64 && stdenv.isLinux) then
+        else if (stdenv.hostPlatform.isAarch64 && stdenv.hostPlatform.isLinux) then
           data.linux.aarch64
-        else if (stdenv.isx86_64 && stdenv.isDarwin) then
+        else if (stdenv.hostPlatform.isx86_64 && stdenv.hostPlatform.isDarwin) then
           data.darwin.x86_64
-        else if (stdenv.isx86_64 && stdenv.isLinux) then
+        else if (stdenv.hostPlatform.isx86_64 && stdenv.hostPlatform.isLinux) then
           data.linux.x86_64
         else
           throw "unsupported platform";
